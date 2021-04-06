@@ -17,6 +17,20 @@ public class Room {
         this.objectsType = objectsType;
     }
 
+    public Door getDoor(int orientation) {
+        return doors[orientation];
+    }
+
+    public int move(int orientation) {
+        if (doors[orientation].isLocked()) {
+            System.err.println("Door locked.\n");
+            return id;
+        }
+        else {
+            return doors[orientation].pass(id);
+        }
+    }
+
     public Object take(String type) {
         int index = objectsType.indexOf(type);
 

@@ -2,12 +2,14 @@ import java.util.ArrayList;
 
 public class Player {
     private int orientation;
+    private int room;
     private ArrayList<Integer> quantities;
     private ArrayList<String> objectsType;
     private ArrayList<Object> objects;
 
-    public Player(int orientation) {
+    public Player(int orientation, int room) {
         this.orientation = orientation;
+        this.room = room;
         this.quantities = new ArrayList<>();
         this.objectsType = new ArrayList<>();
         this.objects = new ArrayList<>();
@@ -17,12 +19,21 @@ public class Player {
         return orientation;
     }
 
+    public int getRoom() {
+        return room;
+    }
+
     public void turn(String direction) {
         switch (direction) {
             case "left" -> orientation = (orientation + 3) % 4;
             case "right" -> orientation = (orientation + 1) % 4;
             default -> System.err.println("Direction not understanded.\n");
         }
+    }
+
+    public int move(Room room) {
+        this.room = room.move(orientation);
+        return this.room;
     }
 
     public void take(Room room, String object) {

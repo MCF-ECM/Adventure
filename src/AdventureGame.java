@@ -9,15 +9,15 @@ public class AdventureGame {
         String input;
         String[] inputs;
 
-        Player player = new Player(0);
+        Player player = new Player(0, 0);
 
-        ArrayList<Room> roms = new ArrayList<>();
+        ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<Door> doors = new ArrayList<>();
 
-        doors.add(new Door(0, true));
-        doors.add(new Door(1, true));
-        Door no = new Door(-1, true);
-        Door[] array ={doors.get(1), doors.get(0), no, no};
+        doors.add(new Door(0, 0, -2, true));
+        doors.add(new Door(1, 0, -2, false));
+        Door no = new Door(-1, -1, -1, true);
+        Door[] array = {doors.get(1), doors.get(0), no, no};
 
         ArrayList<Integer> quantites = new ArrayList<>();
         ArrayList<String> types = new ArrayList<>();
@@ -26,7 +26,8 @@ public class AdventureGame {
         types.add("key");
         types.add("orbe");
 
-        Room room = new Room(2, array, quantites, types);
+        rooms.add(new Room(0, array, quantites, types));
+        Room room = rooms.get(0);
 
 
         while (true) {
@@ -42,7 +43,29 @@ public class AdventureGame {
                         player.turn(inputs[1]);
                     }
                     else {
-                        notUnderstanded();notUnderstanded();
+                        notUnderstanded();
+                    }
+                    break;
+                case "Move":
+                    if (inputs.length == 1) {
+                        switch (player.move(room)) {
+                            case -2:
+                                room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
+                                array = new Door[]{no, no, room.getDoor(player.getOrientation()), no};
+                                quantites = new ArrayList<>();
+                                types = new ArrayList<>();
+
+                                rooms.add(new Room(rooms.size(), array, quantites, types));
+                                room = rooms.get(rooms.size() - 1);
+                                break;
+                            case -1:
+                                throw new IllegalStateException("You are not in the game anymore.");
+                            default:
+                                room = rooms.get(player.getRoom());
+                        }
+                    }
+                    else {
+                        notUnderstanded();
                     }
                     break;
                 case "Take":

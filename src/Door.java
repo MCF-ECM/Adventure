@@ -1,13 +1,21 @@
 public class Door extends Object {
     private boolean locked;
+    private int[] rooms;
 
-    public Door(int id, boolean locked) {
+    public Door(int id, int room1, int room2, boolean locked) {
         super(id, false);
+        rooms = new int[]{room1, room2};
         this.locked = locked;
     }
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public void uploadDoor(int room) {
+        if (rooms[1] == -2) {
+            rooms[1] = room;
+        }
     }
 
     public void unlock(Key key) {
@@ -35,6 +43,18 @@ public class Door extends Object {
             } else {
                 System.err.println("Wrong key.\n");
             }
+        }
+    }
+
+    public int pass(int room) {
+        if (rooms[0] == room) {
+            return rooms[1];
+        }
+        else if (rooms[1] == room) {
+            return rooms[0];
+        }
+        else {
+            return -1;
         }
     }
 
