@@ -21,7 +21,7 @@ public class Room {
         int index = objectsType.indexOf(type);
 
         if (index == -1) {
-            System.out.println("Object not on the floor.");
+            System.err.println("Object not on the floor.\n");
             return new Object(-2, false);
         }
 

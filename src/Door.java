@@ -16,15 +16,30 @@ public class Door extends Object {
                 locked = false;
                 System.out.println("Door unlocked.\n");
             } else {
-                System.out.println("Wrong key.\n");
+                System.err.println("Wrong key.\n");
             }
         }
         else {
-            System.out.println("Door alredy unlocked.\n");
+            System.err.println("Door alredy unlocked.\n");
         }
     }
 
-    public void help() {
-        System.out.println("Unlock <door> with <key> : Unlock door\nLock <door> with <key> : Lock door\n");
+    public void lock(Key key) {
+        if (locked) {
+            System.err.println("Door alredy locked.\n");
+        }
+        else {
+            if (id == key.id) {
+                locked = true;
+                System.out.println("Door locked.\n");
+            } else {
+                System.err.println("Wrong key.\n");
+            }
+        }
+    }
+
+    public static void help() {
+        System.out.println("Unlock <door> with <key> : Unlock door");
+        System.out.println("Lock <door> with <key>   : Lock door\n");
     }
 }

@@ -21,7 +21,7 @@ public class Player {
         switch (direction) {
             case "left" -> orientation = (orientation + 3) % 4;
             case "right" -> orientation = (orientation + 1) % 4;
-            default -> System.out.println("Direction not understanded.\n");
+            default -> System.err.println("Direction not understanded.\n");
         }
     }
 
