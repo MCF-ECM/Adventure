@@ -62,16 +62,25 @@ public class Room {
             System.err.println("Object not on the floor.\n");
             return new Object(-2, false);
         }
-        else if (array.size() > 1) {
-            Object object = array.remove(array.size() - 1);
-            objects.put(type, array);
-            return object;
-        }
         else {
             Object object = array.remove(array.size() - 1);
-            objects.remove(type);
+            if (array.size() == 0) {
+                objects.remove(type);
+            }
+            else {
+                objects.put(type, array);
+            }
             return object;
         }
+    }
+
+    public void drop(String type, Object object) {
+        ArrayList<Object> array = objects.get(type);
+        if (array == null) {
+            array = new ArrayList<>();
+        }
+        array.add(object);
+        objects.put(type, array);
     }
 
     private String positionConversion(int i) {

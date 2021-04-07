@@ -57,6 +57,14 @@ public class AdventureGame {
                         notUnderstanded();
                     }
                     break;
+                case "Drop":
+                    if (inputs.length == 2) {
+                        player.drop(room, inputs[1]);
+                    }
+                    else {
+                        notUnderstanded();
+                    }
+                    break;
                 case "Help":
                     if (inputs.length == 1) {
                         help();

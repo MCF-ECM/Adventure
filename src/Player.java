@@ -48,6 +48,23 @@ public class Player {
         }
     }
 
+    public void drop(Room room, String type) {
+        ArrayList<Object> array = objects.get(type);
+        if (array == null) {
+            System.err.println("You do not carry anything.\n");
+        }
+        else {
+            Object object = array.remove(array.size() - 1);
+            if (array.size() == 0) {
+                objects.remove(type);
+            }
+            else {
+                objects.put(type, array);
+            }
+            room.drop(type, object);
+        }
+    }
+
     public void print() {
         if (objects.isEmpty()) {
             System.out.print("You do not carry anything.\n");
