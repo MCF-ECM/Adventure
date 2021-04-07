@@ -6,7 +6,7 @@ public class Key extends Object {
     private static int previousId = -1;
 
     public Key() {
-        super(nextId(), true);
+        super(nextId(), "key", true);
     }
 
     private static int nextId() {

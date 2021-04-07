@@ -9,13 +9,13 @@ public class Door extends Object {
     private final int[] rooms;
 
     public Door(int id, int room1, int room2) {
-        super(id, false);
+        super(id, "door", false);
         rooms = new int[]{room1, room2};
         locked = Math.random() < 0.6;
     }
 
     public Door(int room1, int room2) {
-        super(nextId(), false);
+        super(nextId(), "door",false);
         rooms = new int[]{room1, room2};
         locked = Math.random() < 0.6;
     }
@@ -30,10 +30,6 @@ public class Door extends Object {
         else {
             return -1;
         }
-    }
-
-    public int getId() {
-        return id;
     }
 
     public boolean isLocked() {
@@ -51,7 +47,7 @@ public class Door extends Object {
             System.err.println("Door alredy unlocked.\n");
             return false;
         }
-        else if (id == key.id) {
+        else if (id == key.getId()) {
             locked = false;
             System.out.println("Door unlocked.\n");
             return true;
@@ -67,7 +63,7 @@ public class Door extends Object {
             System.err.println("Door alredy locked.\n");
             return false;
         }
-        else if (id == key.id) {
+        else if (id == key.getId()) {
             locked = true;
             System.out.println("Door locked.\n");
             return true;

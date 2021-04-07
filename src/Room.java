@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 
 public class Room {
@@ -25,21 +23,15 @@ public class Room {
             }
         }
 
-        Dictionary<String, ArrayList<Object>> objects = new Hashtable<>();
-        ArrayList<Object> keys = new ArrayList<>();
-        long quantity = Math.round(Math.random() * 5);
-        if (quantity > 0) {
-            for (int i = 0; i < quantity; i++) {
-                keys.add(new Key());
-            }
-            objects.put("key", keys);
-        }
-
-        this.objects = objects;
+        this.objects = Object.getObjects(false);
     }
 
     public Door getDoor(int orientation) {
         return doors[orientation];
+    }
+
+    public Object getBox() {
+        return objects.get("box").get(0);
     }
 
     public int move(int orientation) {
@@ -57,30 +49,11 @@ public class Room {
     }
 
     public Object take(String type) {
-        ArrayList<Object> array = objects.get(type);
-        if (array == null) {
-            System.err.println("Object not on the floor.\n");
-            return new Object(-2, false);
-        }
-        else {
-            Object object = array.remove(array.size() - 1);
-            if (array.size() == 0) {
-                objects.remove(type);
-            }
-            else {
-                objects.put(type, array);
-            }
-            return object;
-        }
+        return Object.objectsRemove(objects, type);
     }
 
-    public void drop(String type, Object object) {
-        ArrayList<Object> array = objects.get(type);
-        if (array == null) {
-            array = new ArrayList<>();
-        }
-        array.add(object);
-        objects.put(type, array);
+    public void drop(Object object) {
+        Object.objectsAdd(objects, object);
     }
 
     private String positionConversion(int i) {
@@ -115,24 +88,7 @@ public class Room {
         System.out.println("one door " + positionConversion(positions.get(positions.size() - 1)) + ".");
 
 
-        if (objects.isEmpty()) {
-            System.out.print("There is nothing ");
-        }
-        else {
-            Enumeration<String> keys = objects.keys();
-            String key;
-            System.out.print("There is ");
-
-            if (objects.size() > 1) {
-                for (int i = 0; i < objects.size() - 1; i++) {
-                    key = keys.nextElement();
-                    System.out.print(Object.quantity(objects.get(key).size(), key) + ", ");
-                }
-                System.out.print("and ");
-            }
-            key = keys.nextElement();
-            System.out.print(Object.quantity(objects.get(key).size(), key) + " ");
-        }
+        Object.print(objects);
         System.out.println("on the floor.");
     }
 }

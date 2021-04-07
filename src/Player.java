@@ -36,44 +36,41 @@ public class Player {
         return this.room;
     }
 
-    public void take(Room room, String object) {
-        Object taken = room.take(object);
-        if (taken.portable) {
-            ArrayList<Object> array = objects.get(object);
-            if (array == null) {
-                array = new ArrayList<>();
-            }
-            array.add(taken);
-            objects.put(object, array);
-        }
-    }
-
-    public void drop(Room room, String type) {
-        ArrayList<Object> array = objects.get(type);
-        if (array == null) {
-            System.err.println("You do not carry anything.\n");
-        }
-        else {
-            Object object = array.remove(array.size() - 1);
-            if (array.size() == 0) {
-                objects.remove(type);
-            }
-            else {
-                objects.put(type, array);
-            }
-            room.drop(type, object);
-        }
-    }
-
     public void unlock(Room room) {
         ArrayList<Object> keys = objects.get("key");
         if (keys != null) {
-            Object key = keys.remove(keys.size() - 1);
-            if (!room.getDoor(orientation).unlock(key)) {
-                keys.add(key);
+            Object key = keys.get(keys.size() - 1);
+            if (key.getType().equals("key")) {
+                if (room.getDoor(orientation).unlock(key)) {
+                    keys.remove(keys.size() - 1);
+                    if (keys.size() == 0) {
+                        objects.remove("key");
+                    }
+                }
             }
-            else if (keys.size() == 0) {
-                objects.remove("key");
+            else {
+                System.err.println("You can only use a key to unlock a door!\n");
+            }
+        }
+        else {
+            System.err.println("You do not carry any key\n");
+        }
+    }
+
+    public void unlock(Object box) {
+        ArrayList<Object> keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(keys.size() - 1);
+            if (key.getType().equals("key")) {
+                 if (box.unlock(key)) {
+                    keys.remove(keys.size() - 1);
+                    if (keys.size() == 0) {
+                        objects.remove("key");
+                    }
+                }
+            }
+            else {
+                System.err.println("You can only use a key to unlock a box!\n");
             }
         }
         else {
@@ -84,16 +81,68 @@ public class Player {
     public void lock(Room room) {
         ArrayList<Object> keys = objects.get("key");
         if (keys != null) {
-            Object key = keys.remove(keys.size() - 1);
-            if (!room.getDoor(orientation).lock(key)) {
-                keys.add(key);
+            Object key = keys.get(keys.size() - 1);
+            if (key.getType().equals("key")) {
+                if (room.getDoor(orientation).lock(key)) {
+                    keys.remove(keys.size() - 1);
+                    if (keys.size() == 0) {
+                        objects.remove("key");
+                    }
+                }
             }
-            else if (keys.size() == 0) {
-                objects.remove("key");
+            else {
+                System.err.println("You can only use a key to lock a door!\n");
             }
         }
         else {
             System.err.println("You do not carry any key\n");
+        }
+    }
+
+    public void lock(Object box) {
+        ArrayList<Object> keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(keys.size() - 1);
+            if (key.getType().equals("key")) {
+                if (box.lock(key)) {
+                    keys.remove(keys.size() - 1);
+                    if (keys.size() == 0) {
+                        objects.remove("key");
+                    }
+                }
+            }
+            else {
+                System.err.println("You can only use a key to lock a box!\n");
+            }
+        }
+        else {
+            System.err.println("You do not carry any key\n");
+        }
+    }
+
+    public void take(Room room, String object) {
+        Object.objectsAdd(objects, room.take(object));
+    }
+
+    public void take(Object box, String object) {
+        if (box.type.equals("box") && !box.isLocked()) {
+            Object.objectsAdd(objects, box.take(object));
+        }
+        else {
+            System.err.println("You can only take objects on the floor or in a box!");
+        }
+    }
+
+    public void drop(Room room, String type) {
+        room.drop(Object.objectsRemove(objects, type));
+    }
+
+    public void drop(Object box, String type) {
+        if (box.type.equals("box") && !box.isLocked()) {
+            box.drop(Object.objectsRemove(objects, type));
+        }
+        else {
+            System.err.println("You can only drop objects on the floor or in a box!");
         }
     }
 

@@ -53,6 +53,9 @@ public class AdventureGame {
                     if (inputs.length == 2) {
                         player.take(room, inputs[1]);
                     }
+                    else if (inputs.length == 4 && inputs[2].equals("in")&& inputs[3].equals("box")) {
+                        player.take(room.getBox(), inputs[1]);
+                    }
                     else {
                         notUnderstanded();
                     }
@@ -60,6 +63,9 @@ public class AdventureGame {
                 case "Drop":
                     if (inputs.length == 2) {
                         player.drop(room, inputs[1]);
+                    }
+                    else if (inputs.length == 4 && inputs[2].equals("in")&& inputs[3].equals("box")) {
+                        player.drop(room.getBox(), inputs[1]);
                     }
                     else {
                         notUnderstanded();
@@ -73,6 +79,7 @@ public class AdventureGame {
                         switch (inputs[1]) {
                             case "door" -> Door.help();
                             case "key" -> Key.help();
+                            case "box" -> Box.help();
                             default -> notUnderstanded();
                         }
                     }
@@ -86,16 +93,42 @@ public class AdventureGame {
                     }
                     break;
                 case "Unlock":
-                    if (inputs.length == 4 && inputs[1].equals("door") && inputs[2].equals("with") && inputs[3].equals("key")) {
-                        player.unlock(room);
+                    if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
+                        if (inputs[1].equals("door")) {
+                            player.unlock(room);
+                        }
+                        else if (inputs[1].equals("box")) {
+                            player.unlock(room.getBox());
+                        }
+                        else {
+                            notUnderstanded();
+                        }
                     }
                     else {
                         notUnderstanded();
                     }
                     break;
                 case "Lock":
-                    if (inputs.length == 4 && inputs[1].equals("door") && inputs[2].equals("with") && inputs[3].equals("key")) {
-                        player.lock(room);
+                    if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
+                        if (inputs[1].equals("door")) {
+                            player.lock(room);
+                        }
+                        else if (inputs[1].equals("box")) {
+                            player.lock(room.getBox());
+                        }
+                        else {
+                            notUnderstanded();
+                        }
+                    }
+                    else {
+                        notUnderstanded();
+                    }
+                    break;
+                case "Content":
+                    if (inputs.length == 2 && inputs[1].equals("box")) {
+                        if (room.getBox() != null) {
+                            room.getBox().print();
+                        }
                     }
                     else {
                         notUnderstanded();
