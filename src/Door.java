@@ -6,7 +6,7 @@ public class Door extends Object {
     */
     private static int previousId = -1;
     private boolean locked;
-    private int[] rooms;
+    private final int[] rooms;
 
     public Door(int id, int room1, int room2) {
         super(id, false);
@@ -41,36 +41,39 @@ public class Door extends Object {
     }
 
     public void uploadDoor(int room) {
-        if (rooms[1] == -2) {
+        if (rooms[1] == -1) {
             rooms[1] = room;
         }
     }
 
-    public void unlock(Key key) {
-        if (locked) {
-            if (id == key.id) {
-                locked = false;
-                System.out.println("Door unlocked.\n");
-            } else {
-                System.err.println("Wrong key.\n");
-            }
+    public boolean unlock(Object key) {
+        if (!locked) {
+            System.err.println("Door alredy unlocked.\n");
+            return false;
+        }
+        else if (id == key.id) {
+            locked = false;
+            System.out.println("Door unlocked.\n");
+            return true;
         }
         else {
-            System.err.println("Door alredy unlocked.\n");
+            System.err.println("Wrong key.\n");
+            return false;
         }
     }
 
-    public void lock(Key key) {
+    public boolean lock(Object key) {
         if (locked) {
             System.err.println("Door alredy locked.\n");
+            return false;
         }
-        else {
-            if (id == key.id) {
-                locked = true;
-                System.out.println("Door locked.\n");
-            } else {
-                System.err.println("Wrong key.\n");
-            }
+        else if (id == key.id) {
+            locked = true;
+            System.out.println("Door locked.\n");
+            return true;
+        } else {
+            System.err.println("Wrong key.\n");
+            return false;
         }
     }
 

@@ -65,6 +65,38 @@ public class Player {
         }
     }
 
+    public void unlock(Room room) {
+        ArrayList<Object> keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.remove(keys.size() - 1);
+            if (!room.getDoor(orientation).unlock(key)) {
+                keys.add(key);
+            }
+            else if (keys.size() == 0) {
+                objects.remove("key");
+            }
+        }
+        else {
+            System.err.println("You do not carry any key\n");
+        }
+    }
+
+    public void lock(Room room) {
+        ArrayList<Object> keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.remove(keys.size() - 1);
+            if (!room.getDoor(orientation).lock(key)) {
+                keys.add(key);
+            }
+            else if (keys.size() == 0) {
+                objects.remove("key");
+            }
+        }
+        else {
+            System.err.println("You do not carry any key\n");
+        }
+    }
+
     public void print() {
         if (objects.isEmpty()) {
             System.out.print("You do not carry anything.\n");

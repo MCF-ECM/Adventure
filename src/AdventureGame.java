@@ -13,7 +13,7 @@ public class AdventureGame {
 
         ArrayList<Room> rooms = new ArrayList<>();
 
-        rooms.add(new Room(new Door(-1, 0, -2), (player.getOrientation() + 2) % 4));
+        rooms.add(new Room(new Door(-1, 0, -1), (player.getOrientation() + 2) % 4));
         Room room = rooms.get(0);
 
         boolean play = true;
@@ -36,7 +36,7 @@ public class AdventureGame {
                     break;
                 case "Move":
                     if (inputs.length == 1) {
-                        if (player.move(room) == -2) {
+                        if (player.move(room) == -1) {
                             room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
                             rooms.add(new Room(room.getDoor(player.getOrientation()), player.getOrientation()));
                             room = rooms.get(rooms.size() - 1);
@@ -80,6 +80,22 @@ public class AdventureGame {
                 case "Quit":
                     if (inputs.length == 1) {
                         play = false;
+                    }
+                    else {
+                        notUnderstanded();
+                    }
+                    break;
+                case "Unlock":
+                    if (inputs.length == 4 && inputs[1].equals("door") && inputs[2].equals("with") && inputs[3].equals("key")) {
+                        player.unlock(room);
+                    }
+                    else {
+                        notUnderstanded();
+                    }
+                    break;
+                case "Lock":
+                    if (inputs.length == 4 && inputs[1].equals("door") && inputs[2].equals("with") && inputs[3].equals("key")) {
+                        player.lock(room);
                     }
                     else {
                         notUnderstanded();
