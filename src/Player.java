@@ -7,7 +7,7 @@ import java.util.Hashtable;
 public class Player {
     private int orientation;
     private int room;
-    private Dictionary<String, ArrayList<Object>> objects;
+    private final Dictionary<String, ArrayList<Object>> objects;
 
     public Player(int orientation, int room) {
         this.orientation = orientation;
@@ -59,12 +59,12 @@ public class Player {
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(objects.get(key).size() + " " + key + ", ");
+                    System.out.print(Object.quantity(objects.get(key).size(), key) + ", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.print(objects.get(key).size() + " " + key + ".\n");
+            System.out.print(Object.quantity(objects.get(key).size(), key) + ".\n");
         }
     }
 }

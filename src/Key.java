@@ -1,6 +1,21 @@
 public class Key extends Object {
-    public Key(int id) {
-        super(id, true);
+    /*
+        id = -1 : Commun key to lock and unlock a commun door
+        id >= 0 : Specific key to lock and unlock an specific door
+    */
+    private static int previousId = -1;
+
+    public Key() {
+        super(nextId(), true);
+    }
+
+    private static int nextId() {
+        if (Math.random() < 0.1) {
+            return ++previousId;
+        }
+        else {
+            return -1;
+        }
     }
 
     public static void help() {

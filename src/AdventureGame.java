@@ -1,11 +1,9 @@
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 
 public class AdventureGame {
-    public static void main(String args[]){
+    public static void main(String[] args){
         System.out.println("Welcome to the game!\n");
         Scanner in = new Scanner(System.in);
         String input;
@@ -14,24 +12,13 @@ public class AdventureGame {
         Player player = new Player(0, 0);
 
         ArrayList<Room> rooms = new ArrayList<>();
-        ArrayList<Door> doors = new ArrayList<>();
 
-        doors.add(new Door(0, 0, -2, true));
-        doors.add(new Door(1, 0, -2, false));
-        Door no = new Door(-1, -1, -1, true);
-        Door[] array = {doors.get(1), doors.get(0), no, no};
-
-        Dictionary<String, ArrayList<Object>> objects = new Hashtable<>();
-        ArrayList<Object> keys = new ArrayList<>();
-        keys.add(new Key(-1));
-        keys.add(new Key(-1));
-        objects.put("key", keys);
-
-        rooms.add(new Room(0, array, objects));
+        rooms.add(new Room(new Door(-1, 0, -2), (player.getOrientation() + 2) % 4));
         Room room = rooms.get(0);
 
+        boolean play = true;
 
-        while (true) {
+        while (play) {
             room.print(player.getOrientation());
             player.print();
 
@@ -49,19 +36,13 @@ public class AdventureGame {
                     break;
                 case "Move":
                     if (inputs.length == 1) {
-                        switch (player.move(room)) {
-                            case -2:
-                                room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
-                                array = new Door[]{no, no, room.getDoor(player.getOrientation()), no};
-                                Dictionary<String, ArrayList<Object>> newObjects = new Hashtable<>();
-
-                                rooms.add(new Room(rooms.size(), array, newObjects));
-                                room = rooms.get(rooms.size() - 1);
-                                break;
-                            case -1:
-                                throw new IllegalStateException("You are not in the game anymore.");
-                            default:
-                                room = rooms.get(player.getRoom());
+                        if (player.move(room) == -2) {
+                            room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
+                            rooms.add(new Room(room.getDoor(player.getOrientation()), player.getOrientation()));
+                            room = rooms.get(rooms.size() - 1);
+                        }
+                        else {
+                            room = rooms.get(player.getRoom());
                         }
                     }
                     else {
@@ -82,21 +63,26 @@ public class AdventureGame {
                     }
                     else {
                         switch (inputs[1]) {
-                            case "door":
-                                Door.help();
-                                break;
-                            case "key":
-                                Key.help();
-                                break;
-                            default:
-                                notUnderstanded();
+                            case "door" -> Door.help();
+                            case "key" -> Key.help();
+                            default -> notUnderstanded();
                         }
+                    }
+                    break;
+                case "Quit":
+                    if (inputs.length == 1) {
+                        play = false;
+                    }
+                    else {
+                        notUnderstanded();
                     }
                     break;
                 default:
                     notUnderstanded();
             }
         }
+
+        System.out.println("You quit the game!");
     }
 
     static void help() {
@@ -104,7 +90,8 @@ public class AdventureGame {
         System.out.println("Move                  : Move forward");
         System.out.println("Take <object>         : Pick up object <object>");
         System.out.println("Drop <object>         : Drop object <object>");
-        System.out.println("Help [ <object> ]     : This command\n");
+        System.out.println("Help [ <object> ]     : This command");
+        System.out.println("Quit                  : Quit the game\n");
     }
 
     static void notUnderstanded() {
