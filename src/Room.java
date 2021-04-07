@@ -1,20 +1,21 @@
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+
 
 public class Room {
     private final int id;
     private final Door[] doors;
-    private ArrayList<Integer> quantities;
-    private ArrayList<String> objectsType;
+    private Dictionary<String, ArrayList<Object>> objects;
 
     public int getId() {
         return id;
     }
 
-    public Room(int id, Door[] doors, ArrayList<Integer> quantities, ArrayList<String> objectsType) {
+    public Room(int id, Door[] doors, Dictionary<String, ArrayList<Object>> objects) {
         this.id = id;
         this.doors = doors;
-        this.quantities = quantities;
-        this.objectsType = objectsType;
+        this.objects = objects;
     }
 
     public Door getDoor(int orientation) {
@@ -32,25 +33,21 @@ public class Room {
     }
 
     public Object take(String type) {
-        int index = objectsType.indexOf(type);
-
-        if (index == -1) {
+        ArrayList<Object> array = objects.get(type);
+        if (array == null) {
             System.err.println("Object not on the floor.\n");
             return new Object(-2, false);
         }
-
-        if (quantities.get(index) > 2) {
-            quantities.set(index, quantities.get(index) - 1);
+        else if (array.size() > 1) {
+            Object object = array.remove(array.size() - 1);
+            objects.put(type, array);
+            return object;
         }
         else {
-            quantities.remove(index);
-            objectsType.remove(index);
+            Object object = array.remove(array.size() - 1);
+            objects.remove(type);
+            return object;
         }
-
-        return switch (type) {
-            case "key" -> new Key(-1);
-            default -> new Object(-2, false);
-        };
     }
 
     private String positionConversion(int i) {
@@ -85,26 +82,22 @@ public class Room {
         System.out.println("one door " + positionConversion(positions.get(positions.size() - 1)) + ".");
 
 
-        if (quantities.size() == 0) {
+        if (objects.isEmpty()) {
             System.out.print("There is nothing ");
         }
         else {
-            if (quantities.size() > 1) {
-                System.out.print("There are ");
-                for (int i = 0; i < quantities.size() - 1; i++) {
-                    System.out.print(quantities.get(i) + " " + objectsType.get(i) + ", ");
+            Enumeration<String> keys = objects.keys();
+            String key;
+            System.out.print("You carry ");
+            if (objects.size() > 1) {
+                for (int i = 0; i < objects.size() - 1; i++) {
+                    key = keys.nextElement();
+                    System.out.print(objects.get(key).size() + " " + key + ", ");
                 }
                 System.out.print("and ");
             }
-            else {
-                if (quantities.get(0) == 1) {
-                    System.out.print("There is ");
-                }
-                else {
-                    System.out.print("There are ");
-                }
-            }
-            System.out.print(quantities.get(quantities.size() - 1) + " " + objectsType.get(quantities.size() - 1) + " ");
+            key = keys.nextElement();
+            System.out.print(objects.get(key).size() + " " + key + " ");
         }
         System.out.println("on the floor.");
     }

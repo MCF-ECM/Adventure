@@ -1,3 +1,5 @@
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -19,14 +21,13 @@ public class AdventureGame {
         Door no = new Door(-1, -1, -1, true);
         Door[] array = {doors.get(1), doors.get(0), no, no};
 
-        ArrayList<Integer> quantites = new ArrayList<>();
-        ArrayList<String> types = new ArrayList<>();
-        quantites.add(1);
-        quantites.add(4);
-        types.add("key");
-        types.add("orbe");
+        Dictionary<String, ArrayList<Object>> objects = new Hashtable<>();
+        ArrayList<Object> keys = new ArrayList<>();
+        keys.add(new Key(-1));
+        keys.add(new Key(-1));
+        objects.put("key", keys);
 
-        rooms.add(new Room(0, array, quantites, types));
+        rooms.add(new Room(0, array, objects));
         Room room = rooms.get(0);
 
 
@@ -52,10 +53,9 @@ public class AdventureGame {
                             case -2:
                                 room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
                                 array = new Door[]{no, no, room.getDoor(player.getOrientation()), no};
-                                quantites = new ArrayList<>();
-                                types = new ArrayList<>();
+                                Dictionary<String, ArrayList<Object>> newObjects = new Hashtable<>();
 
-                                rooms.add(new Room(rooms.size(), array, quantites, types));
+                                rooms.add(new Room(rooms.size(), array, newObjects));
                                 room = rooms.get(rooms.size() - 1);
                                 break;
                             case -1:
