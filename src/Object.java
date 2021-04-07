@@ -115,6 +115,21 @@ public class Object {
             objects.put("key", keys);
         }
 
+        if (Math.random() < 0.2) {
+            ArrayList<Object> coins = new ArrayList<>();
+            quantity = 1 + Math.round(Math.random() * 2);
+            for (int i = 0; i < quantity; i++) {
+                coins.add(new Object(0, "coin", true));
+            }
+            objects.put("coin", coins);
+        }
+
+        if (Math.random() < 0.1) {
+            ArrayList<Object> gold = new ArrayList<>();
+            gold.add(new Object(0, "gold", true));
+            objects.put("gold", gold);
+        }
+
         if (!isBox && Math.random() < .4) {
             ArrayList<Object> boxes = new ArrayList<>();
             boxes.add(new Box());
@@ -131,6 +146,8 @@ public class Object {
         else {
             return switch (object) {
                 case "key" -> quantity + " keys";
+                case "coin" -> quantity + " coins";
+                case "gold" -> quantity + " gold";
                 default -> throw new IllegalArgumentException("Not an object");
             };
         }
