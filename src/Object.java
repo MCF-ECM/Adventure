@@ -1,24 +1,47 @@
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Object {
     protected final String type;
+    protected int quantity;
     protected boolean portable;
 
-    public Object(String type) {
+    public Object(String type, int quantity) {
         this.type = type;
+        this.quantity = quantity;
         this.portable = true;
     }
 
-    public Object(String type, boolean portable) {
+    public Object(String type, int quantity, boolean portable) {
         this.type = type;
+        this.quantity = quantity;
         this.portable = portable;
     }
 
     public String getType() {
         return type;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void add(int quantity) {
+        this.quantity = this.quantity + quantity;
+    }
+
+    public Object get(int quantity) {
+        return new Object(type, quantity, portable);
+    }
+
+    public Object remove(int quantity) {
+        if (this.quantity - quantity >= 0) {
+            this.quantity = this.quantity - quantity;
+            return new Object(type, quantity, portable);
+        } else {
+            throw new IllegalArgumentException("Not enougth " + type + "\n!");
+        }
     }
 
     public boolean isPortable() {
@@ -41,7 +64,7 @@ public class Object {
         return false;
     }
 
-    public Object take(String type) {
+    public Object take(String type, int quantity) {
         return null;
     }
 
@@ -51,11 +74,10 @@ public class Object {
     public void print() {
     }
 
-    public static void print(Dictionary<String, ArrayList<Object>> objects) {
+    public static void print(Dictionary<String, Object> objects) {
         if (objects.isEmpty()) {
             System.out.print("There is nothing ");
-        }
-        else {
+        } else {
             Enumeration<String> keys = objects.keys();
             String key;
             System.out.print("There is ");
@@ -63,79 +85,61 @@ public class Object {
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(Object.quantity(objects.get(key).size(), key) + ", ");
+                    System.out.print(Object.quantity(objects.get(key).quantity, key) + ", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.print(Object.quantity(objects.get(key).size(), key) + " ");
+            System.out.print(Object.quantity(objects.get(key).quantity, key) + " ");
         }
     }
 
-    public static void objectsAdd(Dictionary<String, ArrayList<Object>> objects, Object object) {
-        if (object != null && object.portable) {
-            ArrayList<Object> array = objects.get(object.getType());
-            if (array == null) {
-                array = new ArrayList<>();
+    public static void objectsAdd(Dictionary<String, Object> objects, Object object) {
+        if (object.portable) {
+            if (objects.get(object.type) == null) {
+                objects.put(object.type, object);
+            } else {
+                objects.get(object.type).add(object.quantity);
             }
-            array.add(object);
-            objects.put(object.getType(), array);
         }
     }
 
-    public static Object objectsRemove(Dictionary<String, ArrayList<Object>> objects, String type) {
-        ArrayList<Object> array = objects.get(type);
-        if (array == null) {
+    public static Object objectsRemove(Dictionary<String, Object> objects, String type, int quantity) {
+        Object have = objects.get(type);
+        if (have == null) {
             throw new IllegalArgumentException("Object not found.\n");
-        }
-        else {
-            Object object = array.remove(array.size() - 1);
-            if (object.isPortable()) {
-                if (array.size() == 0) {
+        } else {
+            if (have.isPortable()) {
+                if (have.quantity - quantity == 0) {
                     objects.remove(type);
+                    return have;
+                } else {
+                    return have.remove(quantity);
                 }
-                else {
-                    objects.put(type, array);
-                }
-                return object;
-            }
-            else {
-                return null;
+            } else {
+                throw new IllegalArgumentException("You cannot take or drop " + type + "!\n");
             }
         }
     }
 
-    public static Dictionary<String, ArrayList<Object>> getObjects(boolean isBox) {
-        Dictionary<String, ArrayList<Object>> objects = new Hashtable<>();
+    public static Dictionary<String, Object> getObjects(boolean isBox) {
+        Dictionary<String, Object> objects = new Hashtable<>();
 
         long quantity = Math.round(Math.random() * 4);
         if (quantity > 0) {
-            ArrayList<Object> keys = new ArrayList<>();
-            for (int i = 0; i < quantity; i++) {
-                keys.add(new Object("key"));
-            }
-            objects.put("key", keys);
+            objects.put("key", new Object("key", (int) quantity));
         }
 
         if (Math.random() < 0.2) {
-            ArrayList<Object> coins = new ArrayList<>();
-            quantity = 1 + Math.round(Math.random() * 2);
-            for (int i = 0; i < quantity; i++) {
-                coins.add(new Object("coin"));
-            }
-            objects.put("coin", coins);
+            objects.put("coin", new Object("coin", 1 + (int) Math.round(Math.random() * 2)));
         }
 
         if (Math.random() < 0.1) {
-            ArrayList<Object> gold = new ArrayList<>();
-            gold.add(new Object("gold"));
-            objects.put("gold", gold);
+            objects.put("gold", new Object("gold", 1));
         }
 
         if (!isBox && Math.random() < .5) {
-            ArrayList<Object> boxes = new ArrayList<>();
-            boxes.add(new Box());
-            objects.put("box", boxes);
+            objects.put("box", new Box());
         }
 
         return objects;
@@ -144,8 +148,7 @@ public class Object {
     public static String quantity(int quantity, String object) {
         if (quantity == 1) {
             return "1 " + object;
-        }
-        else {
+        } else {
             return switch (object) {
                 case "key" -> quantity + " keys";
                 case "coin" -> quantity + " coins";

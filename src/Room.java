@@ -6,7 +6,7 @@ public class Room {
     private final int id;
     private static int nextId = 0;
     private final Door[] doors;
-    private final Dictionary<String, ArrayList<Object>> objects;
+    private final Dictionary<String, Object> objects;
 
 
     public Room(Door door, int orientation) {
@@ -17,8 +17,7 @@ public class Room {
         for (int i = 0; i < 4; i++) {
             if (i == back) {
                 doors[i] = door;
-            }
-            else {
+            } else {
                 doors[i] = new Door(id, -1);
             }
         }
@@ -31,25 +30,23 @@ public class Room {
     }
 
     public Object getBox() {
-        return objects.get("box").get(0);
+        return objects.get("box");
     }
 
     public int move(int orientation) {
         if (doors[orientation].isDoor()) {
             if(doors[orientation].isLocked()) {
                 throw new IllegalStateException("Door locked.\n");
-            }
-            else {
+            } else {
                 return doors[orientation].pass(id);
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("You cannot go through a wall.\n");
         }
     }
 
-    public Object take(String type) {
-        return Object.objectsRemove(objects, type);
+    public Object take(String type, int quantity) {
+        return Object.objectsRemove(objects, type, quantity);
     }
 
     public void drop(Object object) {

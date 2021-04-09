@@ -4,14 +4,14 @@ public class Door extends Object {
     private final int[] rooms;
 
     public Door(int room1, int room2, boolean isDoor) {
-        super("door", false);
+        super("door", 1, false);
         this.isDoor = isDoor;
         this.locked = Math.random() < .6;
         this.rooms = new int[]{room1, room2};
     }
 
     public Door(int room1, int room2) {
-        super("door",false);
+        super("door",1, false);
         this.isDoor = Math.random() < .4;
         this.locked = Math.random() < .6;
         this.rooms = new int[]{room1, room2};
@@ -45,8 +45,7 @@ public class Door extends Object {
             } else {
                 throw new IllegalStateException("Door alredy unlocked.\n");
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("You cannot unlock a wall!");
         }
     }
@@ -55,8 +54,7 @@ public class Door extends Object {
         if (isDoor) {
             if (locked) {
                 throw new IllegalStateException("Door alredy locked.\n");
-            }
-            else {
+            } else {
                 if (key.getType().equals("key")) {
                     locked = true;
                     System.out.println("Door locked.\n");
@@ -65,8 +63,7 @@ public class Door extends Object {
                     throw new IllegalArgumentException("You need a key to lock a door!");
                 }
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("You cannot lock a wall!");
         }
     }
@@ -74,11 +71,9 @@ public class Door extends Object {
     public int pass(int room) {
         if (rooms[0] == room) {
             return rooms[1];
-        }
-        else if (rooms[1] == room) {
+        } else if (rooms[1] == room) {
             return rooms[0];
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("You are not supposed to go through this door.");
         }
     }

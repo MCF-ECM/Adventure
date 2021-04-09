@@ -1,12 +1,11 @@
-import java.util.ArrayList;
 import java.util.Dictionary;
 
 public class Box extends Object {
     private boolean locked;
-    private final Dictionary<String, ArrayList<Object>> objects;
+    private final Dictionary<String, Object> objects;
 
     public Box() {
-        super("box", false);
+        super("box", 1,false);
         locked = Math.random() < 0.6;
         objects = Object.getObjects(true);
     }
@@ -23,12 +22,10 @@ public class Box extends Object {
                 locked = false;
                 System.out.println("Box unlocked.\n");
                 return true;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("You need a key to lock a box!");
             }
-        }
-        else {
+        } else {
             throw new IllegalStateException("Box alredy unlocked.\n");
         }
     }
@@ -37,22 +34,20 @@ public class Box extends Object {
     public boolean lock(Object key) {
         if (locked) {
             throw new IllegalStateException("Box alredy locked.\n");
-        }
-        else {
+        } else {
             if (key.getType().equals("key")) {
                 locked = true;
                 System.out.println("Box locked.\n");
                 return true;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("You need a key to unlock a box!");
             }
         }
     }
 
     @Override
-    public Object take(String type) {
-        return Object.objectsRemove(objects, type);
+    public Object take(String type, int quantity) {
+        return Object.objectsRemove(objects, type, quantity);
     }
 
     @Override

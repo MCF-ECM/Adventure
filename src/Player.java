@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -7,7 +6,7 @@ import java.util.Hashtable;
 public class Player {
     private int orientation;
     private int room;
-    private final Dictionary<String, ArrayList<Object>> objects;
+    private final Dictionary<String, Object> objects;
 
     public Player(int orientation, int room) {
         this.orientation = orientation;
@@ -38,13 +37,13 @@ public class Player {
 
     public void unlock(Object object) {
         if (object.isDoor() || object.getType().equals("box")) {
-            ArrayList<Object> keys = objects.get("key");
+            Object keys = objects.get("key");
             if (keys != null) {
-                Object key = keys.get(keys.size() - 1);
+                Object key = keys.get(1);
                 if (key.getType().equals("key")) {
                     if (object.unlock(key)) {
-                        keys.remove(keys.size() - 1);
-                        if (keys.size() == 0) {
+                        keys.remove(1);
+                        if (keys.getQuantity() == 0) {
                             objects.remove("key");
                         }
                     }
@@ -59,13 +58,13 @@ public class Player {
 
     public void lock(Object object) {
         if (object.isDoor() || object.getType().equals("box")) {
-            ArrayList<Object> keys = objects.get("key");
+            Object keys = objects.get("key");
             if (keys != null) {
-                Object key = keys.get(keys.size() - 1);
+                Object key = keys.get(1);
                 if (key.getType().equals("key")) {
                     if (object.lock(key)) {
-                        keys.remove(keys.size() - 1);
-                        if (keys.size() == 0) {
+                        keys.remove(1);
+                        if (keys.getQuantity() == 0) {
                             objects.remove("key");
                         }
                     }
@@ -78,28 +77,26 @@ public class Player {
         }
     }
 
-    public void take(Room room, String object) {
-        Object.objectsAdd(objects, room.take(object));
+    public void take(Room room, String object, int quantity) {
+        Object.objectsAdd(objects, room.take(object, quantity));
     }
 
-    public void take(Object box, String object) {
+    public void take(Object box, String object, int quantity) {
         if (box.type.equals("box") && !box.isLocked()) {
-            Object.objectsAdd(objects, box.take(object));
-        }
-        else {
+            Object.objectsAdd(objects, box.take(object, quantity));
+        } else {
             throw new IllegalArgumentException("You can only take objects on the floor or in a box!");
         }
     }
 
-    public void drop(Room room, String type) {
-        room.drop(Object.objectsRemove(objects, type));
+    public void drop(Room room, String type, int quantity) {
+        room.drop(Object.objectsRemove(objects, type, quantity));
     }
 
-    public void drop(Object box, String type) {
+    public void drop(Object box, String type, int quantity) {
         if (box.type.equals("box") && !box.isLocked()) {
-            box.drop(Object.objectsRemove(objects, type));
-        }
-        else {
+            box.drop(Object.objectsRemove(objects, type, quantity));
+        } else {
             throw new IllegalArgumentException("You can only drop objects on the floor or in a box!");
         }
     }
@@ -107,20 +104,19 @@ public class Player {
     public void print() {
         if (objects.isEmpty()) {
             System.out.print("You do not carry anything.\n");
-        }
-        else {
+        } else {
             System.out.print("You carry ");
             Enumeration<String> keys = objects.keys();
             String key;
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(Object.quantity(objects.get(key).size(), key) + ", ");
+                    System.out.print(Object.quantity(objects.get(key).getQuantity(), key) + ", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.print(Object.quantity(objects.get(key).size(), key) + ".\n");
+            System.out.print(Object.quantity(objects.get(key).getQuantity(), key) + ".\n");
         }
     }
 }
