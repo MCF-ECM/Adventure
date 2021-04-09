@@ -1,35 +1,25 @@
 public class Door extends Object {
-    /*
-        id = -2 : Not a "real" door
-        id = -1 : Commun door
-        id >= 0 : Specific door
-    */
-    private static int previousId = -1;
+    private final boolean isDoor;
     private boolean locked;
     private final int[] rooms;
 
-    public Door(int id, int room1, int room2) {
-        super(id, "door", false);
-        rooms = new int[]{room1, room2};
-        locked = Math.random() < 0.6;
+    public Door(int room1, int room2, boolean isDoor) {
+        super("door", false);
+        this.isDoor = isDoor;
+        this.locked = Math.random() < .6;
+        this.rooms = new int[]{room1, room2};
     }
 
     public Door(int room1, int room2) {
-        super(nextId(), "door",false);
-        rooms = new int[]{room1, room2};
-        locked = Math.random() < 0.6;
+        super("door",false);
+        this.isDoor = Math.random() < .4;
+        this.locked = Math.random() < .6;
+        this.rooms = new int[]{room1, room2};
     }
 
-    private static int nextId() {
-        if (Math.random() < .5) {
-            return -2;
-        }
-        else if (Math.random() < 0.1) {
-            return ++previousId;
-        }
-        else {
-            return -1;
-        }
+    @Override
+    public boolean isDoor() {
+        return isDoor;
     }
 
     public boolean isLocked() {
@@ -43,33 +33,43 @@ public class Door extends Object {
     }
 
     public boolean unlock(Object key) {
-        if (!locked) {
-            System.err.println("Door alredy unlocked.\n");
-            return false;
-        }
-        else if (id == key.getId()) {
-            locked = false;
-            System.out.println("Door unlocked.\n");
-            return true;
+        if (isDoor) {
+            if (locked) {
+                if (key.getType().equals("key")) {
+                    locked = false;
+                    System.out.println("Door unlocked.\n");
+                    return true;
+                } else {
+                    throw new IllegalArgumentException("You need a key to unlock a door!");
+                }
+            } else {
+                System.err.println("Door alredy unlocked.\n");
+                return false;
+            }
         }
         else {
-            System.err.println("Wrong key.\n");
-            return false;
+            throw new IllegalArgumentException("You cannot unlock a wall!");
         }
     }
 
     public boolean lock(Object key) {
-        if (locked) {
-            System.err.println("Door alredy locked.\n");
-            return false;
+        if (isDoor) {
+            if (locked) {
+                System.err.println("Door alredy locked.\n");
+                return false;
+            }
+            else {
+                if (key.getType().equals("key")) {
+                    locked = true;
+                    System.out.println("Door locked.\n");
+                    return true;
+                } else {
+                    throw new IllegalArgumentException("You need a key to lock a door!");
+                }
+            }
         }
-        else if (id == key.getId()) {
-            locked = true;
-            System.out.println("Door locked.\n");
-            return true;
-        } else {
-            System.err.println("Wrong key.\n");
-            return false;
+        else {
+            throw new IllegalArgumentException("You cannot lock a wall!");
         }
     }
 

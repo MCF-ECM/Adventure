@@ -6,7 +6,7 @@ public class Box extends Object {
     private final Dictionary<String, ArrayList<Object>> objects;
 
     public Box() {
-        super(-1, "box", false);
+        super("box", false);
         locked = Math.random() < 0.6;
         objects = Object.getObjects(true);
     }
@@ -18,17 +18,18 @@ public class Box extends Object {
 
     @Override
     public boolean unlock(Object key) {
-        if (!locked) {
-            System.err.println("Box alredy unlocked.\n");
-            return false;
-        }
-        else if (key.getId() == -1) {
-            locked = false;
-            System.out.println("Box unlocked.\n");
-            return true;
+        if (locked) {
+            if (key.getType().equals("key")) {
+                locked = false;
+                System.out.println("Box unlocked.\n");
+                return true;
+            }
+            else {
+                throw new IllegalArgumentException("You need a key to lock a box!");
+            }
         }
         else {
-            System.err.println("Wrong key.\n");
+            System.err.println("Box alredy unlocked.\n");
             return false;
         }
     }
@@ -39,13 +40,15 @@ public class Box extends Object {
             System.err.println("Box alredy locked.\n");
             return false;
         }
-        else if (key.getId() == -1) {
-            locked = true;
-            System.out.println("Box locked.\n");
-            return true;
-        } else {
-            System.err.println("Wrong key.\n");
-            return false;
+        else {
+            if (key.getType().equals("key")) {
+                locked = true;
+                System.out.println("Box locked.\n");
+                return true;
+            }
+            else {
+                throw new IllegalArgumentException("You need a key to unlock a box!");
+            }
         }
     }
 

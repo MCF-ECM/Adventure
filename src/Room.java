@@ -35,16 +35,18 @@ public class Room {
     }
 
     public int move(int orientation) {
-        if (doors[orientation].getId() == -2) {
-            System.err.println("You cannot go through a wall.\n");
-            return id;
-        }
-        else if(doors[orientation].isLocked()) {
-            System.err.println("Door locked.\n");
-            return id;
+        if (doors[orientation].isDoor()) {
+            if(doors[orientation].isLocked()) {
+                System.err.println("Door locked.\n");
+                return id;
+            }
+            else {
+                return doors[orientation].pass(id);
+            }
         }
         else {
-            return doors[orientation].pass(id);
+            System.err.println("You cannot go through a wall.\n");
+            return id;
         }
     }
 
@@ -69,12 +71,12 @@ public class Room {
     public void print(int orientation) {
         ArrayList<Integer> positions = new ArrayList<>();
         for (int i = orientation; i < 4; i++) {
-            if (doors[i].getId() != -2) {
+            if (doors[i].isDoor()) {
                 positions.add((i - orientation) % 4);
             }
         }
         for (int i = 0; i < orientation; i++) {
-            if (doors[i].getId() != -2) {
+            if (doors[i].isDoor()) {
                 positions.add((4 + i - orientation) % 4);
             }
         }

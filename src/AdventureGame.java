@@ -13,7 +13,7 @@ public class AdventureGame {
 
         ArrayList<Room> rooms = new ArrayList<>();
 
-        rooms.add(new Room(new Door(-1, 0, -1), (player.getOrientation() + 2) % 4));
+        rooms.add(new Room(new Door(0, -1, true), (player.getOrientation() + 2) % 4));
         Room room = rooms.get(0);
 
         boolean play = true;
@@ -78,7 +78,7 @@ public class AdventureGame {
                     else {
                         switch (inputs[1]) {
                             case "door" -> Door.help();
-                            case "key" -> Key.help();
+                            case "key" -> Object.helpKey();
                             case "box" -> Box.help();
                             default -> notUnderstanded();
                         }

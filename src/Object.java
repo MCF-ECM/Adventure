@@ -4,18 +4,17 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Object {
-    protected int id;
     protected final String type;
     protected boolean portable;
 
-    public Object(int id, String type, boolean portable) {
-        this.id = id;
+    public Object(String type) {
         this.type = type;
-        this.portable = portable;
+        this.portable = true;
     }
 
-    public int getId() {
-        return id;
+    public Object(String type, boolean portable) {
+        this.type = type;
+        this.portable = portable;
     }
 
     public String getType() {
@@ -24,6 +23,10 @@ public class Object {
 
     public boolean isPortable() {
         return portable;
+    }
+
+    public boolean isDoor() {
+        return false;
     }
 
     public boolean isLocked() {
@@ -110,7 +113,7 @@ public class Object {
         if (quantity > 0) {
             ArrayList<Object> keys = new ArrayList<>();
             for (int i = 0; i < quantity; i++) {
-                keys.add(new Key());
+                keys.add(new Object("key"));
             }
             objects.put("key", keys);
         }
@@ -119,14 +122,14 @@ public class Object {
             ArrayList<Object> coins = new ArrayList<>();
             quantity = 1 + Math.round(Math.random() * 2);
             for (int i = 0; i < quantity; i++) {
-                coins.add(new Object(0, "coin", true));
+                coins.add(new Object("coin"));
             }
             objects.put("coin", coins);
         }
 
         if (Math.random() < 0.1) {
             ArrayList<Object> gold = new ArrayList<>();
-            gold.add(new Object(0, "gold", true));
+            gold.add(new Object("gold"));
             objects.put("gold", gold);
         }
 
@@ -151,5 +154,10 @@ public class Object {
                 default -> throw new IllegalArgumentException("Not an object");
             };
         }
+    }
+
+    public static void helpKey() {
+        System.out.println("Unlock <door | box> with <key> : Unlock door");
+        System.out.println("Lock <door | box> with <key>   : Lock door\n");
     }
 }
