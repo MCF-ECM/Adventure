@@ -95,7 +95,7 @@ public class AdventureGame {
                 case "Unlock":
                     if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
                         if (inputs[1].equals("door")) {
-                            player.unlock(room);
+                            player.unlock(room.getDoor(player.getOrientation()));
                         }
                         else if (inputs[1].equals("box")) {
                             player.unlock(room.getBox());
@@ -111,7 +111,7 @@ public class AdventureGame {
                 case "Lock":
                     if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
                         if (inputs[1].equals("door")) {
-                            player.lock(room);
+                            player.lock(room.getDoor(player.getOrientation()));
                         }
                         else if (inputs[1].equals("box")) {
                             player.lock(room.getBox());
