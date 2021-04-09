@@ -86,8 +86,7 @@ public class Object {
     public static Object objectsRemove(Dictionary<String, ArrayList<Object>> objects, String type) {
         ArrayList<Object> array = objects.get(type);
         if (array == null) {
-            System.err.println("Object not found.\n");
-            return null;
+            throw new IllegalArgumentException("Object not found.\n");
         }
         else {
             Object object = array.remove(array.size() - 1);
@@ -133,7 +132,7 @@ public class Object {
             objects.put("gold", gold);
         }
 
-        if (!isBox && Math.random() < .4) {
+        if (!isBox && Math.random() < .5) {
             ArrayList<Object> boxes = new ArrayList<>();
             boxes.add(new Box());
             objects.put("box", boxes);

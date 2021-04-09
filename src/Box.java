@@ -29,16 +29,14 @@ public class Box extends Object {
             }
         }
         else {
-            System.err.println("Box alredy unlocked.\n");
-            return false;
+            throw new IllegalStateException("Box alredy unlocked.\n");
         }
     }
 
     @Override
     public boolean lock(Object key) {
         if (locked) {
-            System.err.println("Box alredy locked.\n");
-            return false;
+            throw new IllegalStateException("Box alredy locked.\n");
         }
         else {
             if (key.getType().equals("key")) {
@@ -65,7 +63,7 @@ public class Box extends Object {
     @Override
     public void print() {
         if (locked) {
-            System.err.println("You can only look at the content of a box when it is unlocked!\n");
+            throw new IllegalStateException("You can only look at the content of a box when it is unlocked!\n");
         } else {
             Object.print(objects);
             System.out.println("in the box.\n");

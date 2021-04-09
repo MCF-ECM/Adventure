@@ -27,7 +27,7 @@ public class Player {
         switch (direction) {
             case "left" -> orientation = (orientation + 3) % 4;
             case "right" -> orientation = (orientation + 1) % 4;
-            default -> System.err.println("Direction not understanded.\n");
+            default -> throw new IllegalArgumentException("Direction not understanded.\n");
         }
     }
 
@@ -49,10 +49,10 @@ public class Player {
                         }
                     }
                 } else {
-                    System.err.println("You can only use a key to unlock a box!\n");
+                    throw new IllegalArgumentException("You can only use a key to unlock a box!\n");
                 }
             } else {
-                System.err.println("You do not carry any key\n");
+                throw new IllegalStateException("You do not carry any key\n");
             }
         }
     }
@@ -70,10 +70,10 @@ public class Player {
                         }
                     }
                 } else {
-                    System.err.println("You can only use a key to lock a box!\n");
+                    throw new IllegalArgumentException("You can only use a key to lock a box!\n");
                 }
             } else {
-                System.err.println("You do not carry any key\n");
+                throw new IllegalStateException("You do not carry any key\n");
             }
         }
     }
@@ -87,7 +87,7 @@ public class Player {
             Object.objectsAdd(objects, box.take(object));
         }
         else {
-            System.err.println("You can only take objects on the floor or in a box!");
+            throw new IllegalArgumentException("You can only take objects on the floor or in a box!");
         }
     }
 
@@ -100,7 +100,7 @@ public class Player {
             box.drop(Object.objectsRemove(objects, type));
         }
         else {
-            System.err.println("You can only drop objects on the floor or in a box!");
+            throw new IllegalArgumentException("You can only drop objects on the floor or in a box!");
         }
     }
 

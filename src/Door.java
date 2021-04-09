@@ -43,8 +43,7 @@ public class Door extends Object {
                     throw new IllegalArgumentException("You need a key to unlock a door!");
                 }
             } else {
-                System.err.println("Door alredy unlocked.\n");
-                return false;
+                throw new IllegalStateException("Door alredy unlocked.\n");
             }
         }
         else {
@@ -55,8 +54,7 @@ public class Door extends Object {
     public boolean lock(Object key) {
         if (isDoor) {
             if (locked) {
-                System.err.println("Door alredy locked.\n");
-                return false;
+                throw new IllegalStateException("Door alredy locked.\n");
             }
             else {
                 if (key.getType().equals("key")) {
@@ -81,7 +79,7 @@ public class Door extends Object {
             return rooms[0];
         }
         else {
-            throw new IllegalStateException("You are not supposed to go through this door.");
+            throw new IllegalArgumentException("You are not supposed to go through this door.");
         }
     }
 

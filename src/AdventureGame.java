@@ -25,117 +25,106 @@ public class AdventureGame {
             input = in.nextLine();
             inputs = input.trim().split("\\s+");
 
-            switch (inputs[0]) {
-                case "Turn":
-                    if (inputs.length == 2) {
-                        player.turn(inputs[1]);
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Move":
-                    if (inputs.length == 1) {
-                        if (player.move(room) == -1) {
-                            room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
-                            rooms.add(new Room(room.getDoor(player.getOrientation()), player.getOrientation()));
-                            room = rooms.get(rooms.size() - 1);
+            try {
+                switch (inputs[0]) {
+                    case "Turn":
+                        if (inputs.length == 2) {
+                            player.turn(inputs[1]);
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                        else {
-                            room = rooms.get(player.getRoom());
+                        break;
+                    case "Move":
+                        if (inputs.length == 1) {
+                            if (player.move(room) == -1) {
+                                room.getDoor(player.getOrientation()).uploadDoor(rooms.size());
+                                rooms.add(new Room(room.getDoor(player.getOrientation()), player.getOrientation()));
+                                room = rooms.get(rooms.size() - 1);
+                            } else {
+                                room = rooms.get(player.getRoom());
+                            }
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Take":
-                    if (inputs.length == 2) {
-                        player.take(room, inputs[1]);
-                    }
-                    else if (inputs.length == 4 && inputs[2].equals("in")&& inputs[3].equals("box")) {
-                        player.take(room.getBox(), inputs[1]);
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Drop":
-                    if (inputs.length == 2) {
-                        player.drop(room, inputs[1]);
-                    }
-                    else if (inputs.length == 4 && inputs[2].equals("in")&& inputs[3].equals("box")) {
-                        player.drop(room.getBox(), inputs[1]);
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Help":
-                    if (inputs.length == 1) {
-                        help();
-                    }
-                    else {
-                        switch (inputs[1]) {
-                            case "door" -> Door.help();
-                            case "key" -> Object.helpKey();
-                            case "box" -> Box.help();
-                            default -> notUnderstanded();
+                        break;
+                    case "Take":
+                        if (inputs.length == 2) {
+                            player.take(room, inputs[1]);
+                        } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
+                            player.take(room.getBox(), inputs[1]);
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                    }
-                    break;
-                case "Quit":
-                    if (inputs.length == 1) {
-                        play = false;
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Unlock":
-                    if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
-                        if (inputs[1].equals("door")) {
-                            player.unlock(room.getDoor(player.getOrientation()));
+                        break;
+                    case "Drop":
+                        if (inputs.length == 2) {
+                            player.drop(room, inputs[1]);
+                        } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
+                            player.drop(room.getBox(), inputs[1]);
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                        else if (inputs[1].equals("box")) {
-                            player.unlock(room.getBox());
+                        break;
+                    case "Help":
+                        if (inputs.length == 1) {
+                            help();
+                        } else {
+                            switch (inputs[1]) {
+                                case "door" -> Door.help();
+                                case "key" -> Object.helpKey();
+                                case "box" -> Box.help();
+                                default -> throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            }
                         }
-                        else {
-                            notUnderstanded();
+                        break;
+                    case "Quit":
+                        if (inputs.length == 1) {
+                            play = false;
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Lock":
-                    if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
-                        if (inputs[1].equals("door")) {
-                            player.lock(room.getDoor(player.getOrientation()));
+                        break;
+                    case "Unlock":
+                        if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
+                            if (inputs[1].equals("door")) {
+                                player.unlock(room.getDoor(player.getOrientation()));
+                            } else if (inputs[1].equals("box")) {
+                                player.unlock(room.getBox());
+                            } else {
+                                throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            }
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                        else if (inputs[1].equals("box")) {
-                            player.lock(room.getBox());
+                        break;
+                    case "Lock":
+                        if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("key")) {
+                            if (inputs[1].equals("door")) {
+                                player.lock(room.getDoor(player.getOrientation()));
+                            } else if (inputs[1].equals("box")) {
+                                player.lock(room.getBox());
+                            } else {
+                                throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            }
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                        else {
-                            notUnderstanded();
+                        break;
+                    case "Content":
+                        if (inputs.length == 2 && inputs[1].equals("box")) {
+                            if (room.getBox() != null) {
+                                room.getBox().print();
+                            }
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                case "Content":
-                    if (inputs.length == 2 && inputs[1].equals("box")) {
-                        if (room.getBox() != null) {
-                            room.getBox().print();
-                        }
-                    }
-                    else {
-                        notUnderstanded();
-                    }
-                    break;
-                default:
-                    notUnderstanded();
+                        break;
+                    default:
+                        throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                }
+            }
+            catch (IllegalArgumentException | IllegalStateException e) {
+                System.err.println(e.getMessage());
             }
         }
 
@@ -149,9 +138,5 @@ public class AdventureGame {
         System.out.println("Drop <object>         : Drop object <object>");
         System.out.println("Help [ <object> ]     : This command");
         System.out.println("Quit                  : Quit the game\n");
-    }
-
-    static void notUnderstanded() {
-        System.err.println("Your instruction is not understanded\n");
     }
 }

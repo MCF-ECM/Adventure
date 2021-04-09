@@ -37,16 +37,14 @@ public class Room {
     public int move(int orientation) {
         if (doors[orientation].isDoor()) {
             if(doors[orientation].isLocked()) {
-                System.err.println("Door locked.\n");
-                return id;
+                throw new IllegalStateException("Door locked.\n");
             }
             else {
                 return doors[orientation].pass(id);
             }
         }
         else {
-            System.err.println("You cannot go through a wall.\n");
-            return id;
+            throw new IllegalArgumentException("You cannot go through a wall.\n");
         }
     }
 
