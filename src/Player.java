@@ -35,6 +35,11 @@ public class Player {
         return this.room;
     }
 
+    public void coinsToGold() {
+        Object.objectsRemove(objects, "coin", 5);
+        Object.objectsAdd(objects, new Object("gold", 1, true));
+    }
+
     public void unlock(Object object) {
         if (object.isDoor() || object.getType().equals("box")) {
             Object keys = objects.get("key");
@@ -53,6 +58,8 @@ public class Player {
             } else {
                 throw new IllegalStateException("You do not carry any key\n");
             }
+        } else {
+            throw new IllegalArgumentException("You can only lock a door or a box!\n");
         }
     }
 
@@ -74,6 +81,8 @@ public class Player {
             } else {
                 throw new IllegalStateException("You do not carry any key\n");
             }
+        } else {
+            throw new IllegalArgumentException("You can only lock a door or a box!\n");
         }
     }
 
@@ -103,7 +112,7 @@ public class Player {
 
     public void print() {
         if (objects.isEmpty()) {
-            System.out.print("You do not carry anything.\n");
+            System.out.println("You do not carry anything.\n");
         } else {
             System.out.print("You carry ");
             Enumeration<String> keys = objects.keys();
@@ -116,7 +125,7 @@ public class Player {
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.print(Object.quantity(objects.get(key).getQuantity(), key) + ".\n");
+            System.out.println(Object.quantity(objects.get(key).getQuantity(), key) + ".\n");
         }
     }
 }

@@ -1,5 +1,6 @@
 import java.util.Dictionary;
 
+
 public class Box extends Object {
     private boolean locked;
     private final Dictionary<String, Object> objects;
@@ -66,8 +67,8 @@ public class Box extends Object {
     }
 
     public static void help() {
-        System.out.println("Unlock <box> with <key> : Unlock box");
-        System.out.println("Lock <box> with <key>   : Lock box");
-        System.out.println("Content <box>           : Box content\n");
+        System.out.println("Unlock box with key : Unlock box");
+        System.out.println("Lock box with key   : Lock box");
+        System.out.println("Content box         : Show the content of a box\n");
     }
 }

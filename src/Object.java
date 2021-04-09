@@ -53,22 +53,23 @@ public class Object {
     }
 
     public boolean isLocked() {
-        return false;
+        throw new IllegalArgumentException("You can only a door or in a box can be locked!");
     }
 
     public boolean unlock(Object key) {
-        return false;
+        throw new IllegalArgumentException("You can only lock a door or a box!\n");
     }
 
     public boolean lock(Object key) {
-        return false;
+        throw new IllegalArgumentException("You can only lock a door or a box!\n");
     }
 
     public Object take(String type, int quantity) {
-        return null;
+        throw new IllegalArgumentException("You can only take objects on the floor or in a box!");
     }
 
     public void drop(Object object) {
+        throw new IllegalArgumentException("You can only drop objects on the floor or in a box!");
     }
 
     public void print() {
@@ -130,11 +131,11 @@ public class Object {
             objects.put("key", new Object("key", (int) quantity));
         }
 
-        if (Math.random() < 0.2) {
+        if (Math.random() < .5) {
             objects.put("coin", new Object("coin", 1 + (int) Math.round(Math.random() * 2)));
         }
 
-        if (Math.random() < 0.1) {
+        if (Math.random() < .1) {
             objects.put("gold", new Object("gold", 1));
         }
 
@@ -159,7 +160,11 @@ public class Object {
     }
 
     public static void helpKey() {
-        System.out.println("Unlock <door | box> with <key> : Unlock door");
-        System.out.println("Lock <door | box> with <key>   : Lock door\n");
+        System.out.println("Unlock door | box with key : Unlock door");
+        System.out.println("Lock door | box with key   : Lock door\n");
+    }
+
+    public static void helpCoin() {
+        System.out.println("Transform coins : Transform 5 coins in 1 gold\n");
     }
 }

@@ -72,6 +72,7 @@ public class AdventureGame {
                             switch (inputs[1]) {
                                 case "door" -> Door.help();
                                 case "key" -> Object.helpKey();
+                                case "coin", "gold" -> Object.helpCoin();
                                 case "box" -> Box.help();
                                 default -> throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                             }
@@ -119,6 +120,13 @@ public class AdventureGame {
                             throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                         }
                         break;
+                    case "Transform":
+                        if (inputs.length == 4 && inputs[1].equals("coins") && inputs[2].equals("in") && inputs[3].equals("gold")) {
+                            player.coinsToGold();
+                        } else {
+                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                        }
+                        break;
                     default:
                         throw new IllegalArgumentException(("Your instruction is not understanded\n"));
                 }
@@ -132,11 +140,12 @@ public class AdventureGame {
     }
 
     static void help() {
-        System.out.println("Turn ( right | left ) : Turn in the specified direction");
-        System.out.println("Move                  : Move forward");
-        System.out.println("Take <object>         : Pick up object <object>");
-        System.out.println("Drop <object>         : Drop object <object>");
-        System.out.println("Help [ <object> ]     : This command");
-        System.out.println("Quit                  : Quit the game\n");
+        System.out.println("Turn ( right | left )           : Turn in the specified direction");
+        System.out.println("Move                            : Move forward");
+        System.out.println("Take object                     : Pick up object object");
+        System.out.println("Drop object                     : Drop object object");
+        System.out.println("Action object1 [ with object2 ] : Perform action action on object object1, possibly with the help of object object2.");
+        System.out.println("Help [ object ]                 : This command");
+        System.out.println("Quit                            : Quit the game\n");
     }
 }
