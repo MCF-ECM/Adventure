@@ -40,11 +40,11 @@ public class Player {
         Object.objectsAdd(objects, new Object("gold", 1));
     }
 
-    public void unlock(Door door) {
+    public void unlock(LockableObject lockableObject) {
         Object keys = objects.get("key");
         if (keys != null) {
             Object key = keys.get(1);
-            if (door.unlock(key)) {
+            if (lockableObject.unlock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
                     objects.remove("key");
@@ -55,41 +55,11 @@ public class Player {
         }
     }
 
-    public void unlock(Box box) {
+    public void lock(LockableObject lockableObject) {
         Object keys = objects.get("key");
         if (keys != null) {
             Object key = keys.get(1);
-            if (box.unlock(key)) {
-                keys.remove(1);
-                if (keys.getQuantity() == 0) {
-                    objects.remove("key");
-                }
-            }
-        } else {
-            throw new IllegalStateException("You do not carry any key\n");
-        }
-    }
-
-    public void lock(Door door) {
-        Object keys = objects.get("key");
-        if (keys != null) {
-            Object key = keys.get(1);
-            if (door.lock(key)) {
-                keys.remove(1);
-                if (keys.getQuantity() == 0) {
-                    objects.remove("key");
-                }
-            }
-        } else {
-            throw new IllegalStateException("You do not carry any key\n");
-        }
-    }
-
-    public void lock(Box box) {
-        Object keys = objects.get("key");
-        if (keys != null) {
-            Object key = keys.get(1);
-            if (box.lock(key)) {
+            if (lockableObject.lock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
                     objects.remove("key");

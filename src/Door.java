@@ -1,19 +1,16 @@
-public class Door extends Object {
+public class Door extends LockableObject {
     private final boolean isDoor;
-    private boolean locked;
     private final int[] rooms;
 
     public Door(int room1, int room2, boolean isDoor) {
-        super("door", 1, false);
+        super("door");
         this.isDoor = isDoor;
-        this.locked = Math.random() < .6;
         this.rooms = new int[]{room1, room2};
     }
 
     public Door(int room1, int room2) {
-        super("door",1, false);
+        super("door");
         this.isDoor = Math.random() < .4;
-        this.locked = Math.random() < .6;
         this.rooms = new int[]{room1, room2};
     }
 
@@ -21,49 +18,9 @@ public class Door extends Object {
         return isDoor;
     }
 
-    public boolean isLocked() {
-        return locked;
-    }
-
     public void uploadDoor(int room) {
         if (rooms[1] == -1) {
             rooms[1] = room;
-        }
-    }
-
-    public boolean unlock(Object key) {
-        if (isDoor) {
-            if (locked) {
-                if (key.getType().equals("key")) {
-                    locked = false;
-                    System.out.println("Door unlocked.\n");
-                    return true;
-                } else {
-                    throw new IllegalArgumentException("You need a key to unlock a door!\n");
-                }
-            } else {
-                throw new IllegalStateException("Door already unlocked.\n");
-            }
-        } else {
-            throw new IllegalArgumentException("You cannot unlock a wall!\n");
-        }
-    }
-
-    public boolean lock(Object key) {
-        if (isDoor) {
-            if (locked) {
-                throw new IllegalStateException("Door already locked.\n");
-            } else {
-                if (key.getType().equals("key")) {
-                    locked = true;
-                    System.out.println("Door locked.\n");
-                    return true;
-                } else {
-                    throw new IllegalArgumentException("You need a key to lock a door!\n");
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("You cannot lock a wall!\n");
         }
     }
 

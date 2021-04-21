@@ -1,42 +1,12 @@
 import java.util.Dictionary;
 
 
-public class Box extends Object {
-    private boolean locked;
+public class Box extends LockableObject {
     private final Dictionary<String, Object> objects;
 
     public Box() {
-        super("box", 1,false);
-        locked = Math.random() < 0.6;
+        super("box", 1);
         objects = Object.getObjects(true);
-    }
-
-    public boolean unlock(Object key) {
-        if (locked) {
-            if (key.getType().equals("key")) {
-                locked = false;
-                System.out.println("Box unlocked.\n");
-                return true;
-            } else {
-                throw new IllegalArgumentException("You need a key to lock a box!\n");
-            }
-        } else {
-            throw new IllegalStateException("Box already unlocked.\n");
-        }
-    }
-
-    public boolean lock(Object key) {
-        if (locked) {
-            throw new IllegalStateException("Box already locked.\n");
-        } else {
-            if (key.getType().equals("key")) {
-                locked = true;
-                System.out.println("Box locked.\n");
-                return true;
-            } else {
-                throw new IllegalArgumentException("You need a key to unlock a box!\n");
-            }
-        }
     }
 
     public Object take(String type, int quantity) {
@@ -58,7 +28,7 @@ public class Box extends Object {
     @Override
     public void print() {
         if (locked) {
-            throw new IllegalStateException("You can only look at the content of a box when it is unlocked!\n");
+            throw new IllegalStateException("You can only look the content of an unlocked box!\n");
         } else {
             Object.print(objects);
             System.out.println("in the box.\n");
