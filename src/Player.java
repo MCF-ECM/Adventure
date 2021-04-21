@@ -40,6 +40,16 @@ public class Player {
         Object.objectsAdd(objects, new Object("gold", 1));
     }
 
+    public void coinsToDiamond() {
+        Object.objectsRemove(objects, "coin", 15);
+        Object.objectsAdd(objects, new Object("diamond", 1));
+    }
+
+    public void goldToDiamond() {
+        Object.objectsRemove(objects, "gold", 3);
+        Object.objectsAdd(objects, new Object("diamond", 1));
+    }
+
     public void unlock(LockableObject lockableObject) {
         Object keys = objects.get("key");
         if (keys != null) {

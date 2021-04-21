@@ -40,7 +40,7 @@ public class Object {
             this.quantity = this.quantity - quantity;
             return new Object(type, quantity, portable);
         } else {
-            throw new IllegalArgumentException("Not enough " + type + "\n!");
+            throw new IllegalArgumentException("Not enough " + type + "!\n");
         }
     }
 
@@ -130,17 +130,9 @@ public class Object {
                 case "key" -> quantity + " keys";
                 case "coin" -> quantity + " coins";
                 case "gold" -> quantity + " gold";
+                case "diamond" -> quantity + " diamonds";
                 default -> throw new IllegalArgumentException("Not an object");
             };
         }
-    }
-
-    public static void helpKey() {
-        System.out.println("Unlock door | box with key : Unlock door");
-        System.out.println("Lock door | box with key   : Lock door\n");
-    }
-
-    public static void helpCoin() {
-        System.out.println("Transform coins : Transform 5 coins in 1 gold\n");
     }
 }
