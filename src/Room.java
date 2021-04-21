@@ -29,8 +29,8 @@ public class Room {
         return doors[orientation];
     }
 
-    public Object getBox() {
-        return objects.get("box");
+    public Box getBox() {
+        return (Box) objects.get("box");
     }
 
     public int move(int orientation) {

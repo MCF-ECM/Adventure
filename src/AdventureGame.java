@@ -31,7 +31,7 @@ public class AdventureGame {
                         if (inputs.length == 2) {
                             player.turn(inputs[1]);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Move":
@@ -44,7 +44,7 @@ public class AdventureGame {
                                 room = rooms.get(player.getRoom());
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Take":
@@ -53,7 +53,7 @@ public class AdventureGame {
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
                             player.take(room.getBox(), inputs[1], 1);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Drop":
@@ -62,7 +62,7 @@ public class AdventureGame {
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
                             player.drop(room.getBox(), inputs[1], 1);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Help":
@@ -74,7 +74,7 @@ public class AdventureGame {
                                 case "key" -> Object.helpKey();
                                 case "coin", "gold" -> Object.helpCoin();
                                 case "box" -> Box.help();
-                                default -> throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                                default -> throw new IllegalArgumentException(("Your instruction is not understood\n"));
                             }
                         }
                         break;
@@ -82,7 +82,7 @@ public class AdventureGame {
                         if (inputs.length == 1) {
                             play = false;
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Unlock":
@@ -92,10 +92,10 @@ public class AdventureGame {
                             } else if (inputs[1].equals("box")) {
                                 player.unlock(room.getBox());
                             } else {
-                                throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                                throw new IllegalArgumentException(("Your instruction is not understood\n"));
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Lock":
@@ -105,10 +105,10 @@ public class AdventureGame {
                             } else if (inputs[1].equals("box")) {
                                 player.lock(room.getBox());
                             } else {
-                                throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                                throw new IllegalArgumentException(("Your instruction is not understood\n"));
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Content":
@@ -117,18 +117,18 @@ public class AdventureGame {
                                 room.getBox().print();
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     case "Transform":
                         if (inputs.length == 4 && inputs[1].equals("coins") && inputs[2].equals("in") && inputs[3].equals("gold")) {
                             player.coinsToGold();
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
                         }
                         break;
                     default:
-                        throw new IllegalArgumentException(("Your instruction is not understanded\n"));
+                        throw new IllegalArgumentException(("Your instruction is not understood\n"));
                 }
             }
             catch (IllegalArgumentException | IllegalStateException e) {

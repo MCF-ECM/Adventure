@@ -17,7 +17,6 @@ public class Door extends Object {
         this.rooms = new int[]{room1, room2};
     }
 
-    @Override
     public boolean isDoor() {
         return isDoor;
     }
@@ -40,31 +39,31 @@ public class Door extends Object {
                     System.out.println("Door unlocked.\n");
                     return true;
                 } else {
-                    throw new IllegalArgumentException("You need a key to unlock a door!");
+                    throw new IllegalArgumentException("You need a key to unlock a door!\n");
                 }
             } else {
-                throw new IllegalStateException("Door alredy unlocked.\n");
+                throw new IllegalStateException("Door already unlocked.\n");
             }
         } else {
-            throw new IllegalArgumentException("You cannot unlock a wall!");
+            throw new IllegalArgumentException("You cannot unlock a wall!\n");
         }
     }
 
     public boolean lock(Object key) {
         if (isDoor) {
             if (locked) {
-                throw new IllegalStateException("Door alredy locked.\n");
+                throw new IllegalStateException("Door already locked.\n");
             } else {
                 if (key.getType().equals("key")) {
                     locked = true;
                     System.out.println("Door locked.\n");
                     return true;
                 } else {
-                    throw new IllegalArgumentException("You need a key to lock a door!");
+                    throw new IllegalArgumentException("You need a key to lock a door!\n");
                 }
             }
         } else {
-            throw new IllegalArgumentException("You cannot lock a wall!");
+            throw new IllegalArgumentException("You cannot lock a wall!\n");
         }
     }
 
@@ -74,7 +73,7 @@ public class Door extends Object {
         } else if (rooms[1] == room) {
             return rooms[0];
         } else {
-            throw new IllegalArgumentException("You are not supposed to go through this door.");
+            throw new IllegalArgumentException("You are not supposed to go through this door.\n");
         }
     }
 

@@ -26,7 +26,7 @@ public class Player {
         switch (direction) {
             case "left" -> orientation = (orientation + 3) % 4;
             case "right" -> orientation = (orientation + 1) % 4;
-            default -> throw new IllegalArgumentException("Direction not understanded.\n");
+            default -> throw new IllegalArgumentException("Direction not understood.\n");
         }
     }
 
@@ -40,49 +40,63 @@ public class Player {
         Object.objectsAdd(objects, new Object("gold", 1, true));
     }
 
-    public void unlock(Object object) {
-        if (object.isDoor() || object.getType().equals("box")) {
-            Object keys = objects.get("key");
-            if (keys != null) {
-                Object key = keys.get(1);
-                if (key.getType().equals("key")) {
-                    if (object.unlock(key)) {
-                        keys.remove(1);
-                        if (keys.getQuantity() == 0) {
-                            objects.remove("key");
-                        }
-                    }
-                } else {
-                    throw new IllegalArgumentException("You can only use a key to unlock a box!\n");
+    public void unlock(Door door) {
+        Object keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(1);
+            if (door.unlock(key)) {
+                keys.remove(1);
+                if (keys.getQuantity() == 0) {
+                    objects.remove("key");
                 }
-            } else {
-                throw new IllegalStateException("You do not carry any key\n");
             }
         } else {
-            throw new IllegalArgumentException("You can only lock a door or a box!\n");
+            throw new IllegalStateException("You do not carry any key\n");
         }
     }
 
-    public void lock(Object object) {
-        if (object.isDoor() || object.getType().equals("box")) {
-            Object keys = objects.get("key");
-            if (keys != null) {
-                Object key = keys.get(1);
-                if (key.getType().equals("key")) {
-                    if (object.lock(key)) {
-                        keys.remove(1);
-                        if (keys.getQuantity() == 0) {
-                            objects.remove("key");
-                        }
-                    }
-                } else {
-                    throw new IllegalArgumentException("You can only use a key to lock a box!\n");
+    public void unlock(Box box) {
+        Object keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(1);
+            if (box.unlock(key)) {
+                keys.remove(1);
+                if (keys.getQuantity() == 0) {
+                    objects.remove("key");
                 }
-            } else {
-                throw new IllegalStateException("You do not carry any key\n");
             }
         } else {
-            throw new IllegalArgumentException("You can only lock a door or a box!\n");
+            throw new IllegalStateException("You do not carry any key\n");
+        }
+    }
+
+    public void lock(Door door) {
+        Object keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(1);
+            if (door.lock(key)) {
+                keys.remove(1);
+                if (keys.getQuantity() == 0) {
+                    objects.remove("key");
+                }
+            }
+        } else {
+            throw new IllegalStateException("You do not carry any key\n");
+        }
+    }
+
+    public void lock(Box box) {
+        Object keys = objects.get("key");
+        if (keys != null) {
+            Object key = keys.get(1);
+            if (box.lock(key)) {
+                keys.remove(1);
+                if (keys.getQuantity() == 0) {
+                    objects.remove("key");
+                }
+            }
+        } else {
+            throw new IllegalStateException("You do not carry any key\n");
         }
     }
 
@@ -90,24 +104,16 @@ public class Player {
         Object.objectsAdd(objects, room.take(object, quantity));
     }
 
-    public void take(Object box, String object, int quantity) {
-        if (box.type.equals("box") && !box.isLocked()) {
-            Object.objectsAdd(objects, box.take(object, quantity));
-        } else {
-            throw new IllegalArgumentException("You can only take objects on the floor or in a box!");
-        }
+    public void take(Box box, String object, int quantity) {
+        Object.objectsAdd(objects, box.take(object, quantity));
     }
 
     public void drop(Room room, String type, int quantity) {
         room.drop(Object.objectsRemove(objects, type, quantity));
     }
 
-    public void drop(Object box, String type, int quantity) {
-        if (box.type.equals("box") && !box.isLocked()) {
-            box.drop(Object.objectsRemove(objects, type, quantity));
-        } else {
-            throw new IllegalArgumentException("You can only drop objects on the floor or in a box!");
-        }
+    public void drop(Box box, String type, int quantity) {
+        box.drop(Object.objectsRemove(objects, type, quantity));
     }
 
     public void print() {

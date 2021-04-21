@@ -11,12 +11,6 @@ public class Box extends Object {
         objects = Object.getObjects(true);
     }
 
-    @Override
-    public boolean isLocked() {
-        return locked;
-    }
-
-    @Override
     public boolean unlock(Object key) {
         if (locked) {
             if (key.getType().equals("key")) {
@@ -24,36 +18,41 @@ public class Box extends Object {
                 System.out.println("Box unlocked.\n");
                 return true;
             } else {
-                throw new IllegalArgumentException("You need a key to lock a box!");
+                throw new IllegalArgumentException("You need a key to lock a box!\n");
             }
         } else {
-            throw new IllegalStateException("Box alredy unlocked.\n");
+            throw new IllegalStateException("Box already unlocked.\n");
         }
     }
 
-    @Override
     public boolean lock(Object key) {
         if (locked) {
-            throw new IllegalStateException("Box alredy locked.\n");
+            throw new IllegalStateException("Box already locked.\n");
         } else {
             if (key.getType().equals("key")) {
                 locked = true;
                 System.out.println("Box locked.\n");
                 return true;
             } else {
-                throw new IllegalArgumentException("You need a key to unlock a box!");
+                throw new IllegalArgumentException("You need a key to unlock a box!\n");
             }
         }
     }
 
-    @Override
     public Object take(String type, int quantity) {
-        return Object.objectsRemove(objects, type, quantity);
+        if (locked) {
+            throw new IllegalArgumentException("You cannot take objects in an unlocked box!\n");
+        } else {
+            return Object.objectsRemove(objects, type, quantity);
+        }
     }
 
-    @Override
     public void drop(Object object) {
-        Object.objectsAdd(objects, object);
+        if (locked) {
+            throw new IllegalArgumentException("You cannot drop objects in an unlocked box!\n");
+        } else {
+            Object.objectsAdd(objects, object);
+        }
     }
 
     @Override

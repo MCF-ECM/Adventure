@@ -40,36 +40,12 @@ public class Object {
             this.quantity = this.quantity - quantity;
             return new Object(type, quantity, portable);
         } else {
-            throw new IllegalArgumentException("Not enougth " + type + "\n!");
+            throw new IllegalArgumentException("Not enough " + type + "\n!");
         }
     }
 
     public boolean isPortable() {
         return portable;
-    }
-
-    public boolean isDoor() {
-        return false;
-    }
-
-    public boolean isLocked() {
-        throw new IllegalArgumentException("You can only a door or in a box can be locked!");
-    }
-
-    public boolean unlock(Object key) {
-        throw new IllegalArgumentException("You can only lock a door or a box!\n");
-    }
-
-    public boolean lock(Object key) {
-        throw new IllegalArgumentException("You can only lock a door or a box!\n");
-    }
-
-    public Object take(String type, int quantity) {
-        throw new IllegalArgumentException("You can only take objects on the floor or in a box!");
-    }
-
-    public void drop(Object object) {
-        throw new IllegalArgumentException("You can only drop objects on the floor or in a box!");
     }
 
     public void print() {
