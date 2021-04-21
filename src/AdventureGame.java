@@ -71,8 +71,8 @@ public class AdventureGame {
                         } else {
                             switch (inputs[1]) {
                                 case "door" -> Door.help();
-                                case "key" -> Object.helpKey();
-                                case "coin", "gold" -> Object.helpCoin();
+                                case "key" -> Key.help();
+                                case "coin", "gold" -> Currency.help();
                                 case "box" -> Box.help();
                                 default -> throw new IllegalArgumentException(("Your instruction is not understood\n"));
                             }

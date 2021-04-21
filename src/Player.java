@@ -37,7 +37,7 @@ public class Player {
 
     public void coinsToGold() {
         Object.objectsRemove(objects, "coin", 5);
-        Object.objectsAdd(objects, new Object("gold", 1, true));
+        Object.objectsAdd(objects, new Object("gold", 1));
     }
 
     public void unlock(Door door) {
