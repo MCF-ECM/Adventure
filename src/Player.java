@@ -24,9 +24,14 @@ public class Player {
 
     public void turn(String direction) {
         switch (direction) {
-            case "left" -> orientation = (orientation + 3) % 4;
-            case "right" -> orientation = (orientation + 1) % 4;
-            default -> throw new IllegalArgumentException("Direction not understood.\n");
+            case "left":
+                orientation = (orientation + 3) % 4;
+                break;
+            case "right":
+                orientation = (orientation + 1) % 4;
+                break;
+            default:
+                throw new IllegalArgumentException("Direction not understood.\n");
         }
     }
 
@@ -37,17 +42,17 @@ public class Player {
 
     public void coinsToGold() {
         Object.objectsRemove(objects, "coin", 5);
-        Object.objectsAdd(objects, new Object("gold", 1));
+        Object.objectsAdd(objects, new Currency("gold", 1));
     }
 
     public void coinsToDiamond() {
         Object.objectsRemove(objects, "coin", 15);
-        Object.objectsAdd(objects, new Object("diamond", 1));
+        Object.objectsAdd(objects, new Currency("diamond", 1));
     }
 
     public void goldToDiamond() {
         Object.objectsRemove(objects, "gold", 3);
-        Object.objectsAdd(objects, new Object("diamond", 1));
+        Object.objectsAdd(objects, new Currency("diamond", 1));
     }
 
     public void unlock(LockableObject lockableObject) {

@@ -54,13 +54,18 @@ public class Room {
     }
 
     private String positionConversion(int i) {
-        return switch (i) {
-            case 0 -> "in front of you";
-            case 1 -> "on your right";
-            case 2 -> "in your back";
-            case 3 -> "on your left";
-            default -> throw new IllegalArgumentException("Argument supposed to be between 0 and 4 but given: " + i);
-        };
+        switch (i) {
+            case 0:
+                return "in front of you";
+            case 1:
+                return "on your right";
+            case 2:
+                return"in your back";
+            case 3:
+                return "on your left";
+            default:
+                throw new IllegalArgumentException("Argument supposed to be between 0 and 4 but given: " + i);
+        }
     }
 
     public void print(int orientation) {

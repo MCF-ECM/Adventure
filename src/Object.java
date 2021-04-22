@@ -126,13 +126,18 @@ public class Object {
         if (quantity == 1) {
             return "1 " + object;
         } else {
-            return switch (object) {
-                case "key" -> quantity + " keys";
-                case "coin" -> quantity + " coins";
-                case "gold" -> quantity + " gold";
-                case "diamond" -> quantity + " diamonds";
-                default -> throw new IllegalArgumentException("Not an object");
-            };
+            switch (object) {
+                case "key":
+                    return quantity + " keys";
+                case "coin":
+                    return quantity + " coins";
+                case "gold":
+                    return quantity + " gold";
+                case "diamond":
+                    return quantity + " diamonds";
+                default:
+                    throw new IllegalArgumentException("Not an object");
+            }
         }
     }
 }

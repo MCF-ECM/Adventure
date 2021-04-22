@@ -44,10 +44,13 @@ public class LockableObject extends Object {
     }
 
     private String upper(String type) {
-        return switch (type) {
-            case "box" ->"Box";
-            case "door" -> "Door";
-            default -> throw new IllegalArgumentException("Not an lockable object");
-        };
+        switch (type) {
+            case "box":
+                return "Box";
+            case "door":
+                return "Door";
+            default:
+                throw new IllegalArgumentException("Not an lockable object");
+        }
     }
 }
