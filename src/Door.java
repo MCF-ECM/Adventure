@@ -30,7 +30,7 @@ public class Door extends LockableObject {
         } else if (rooms[1] == room) {
             return rooms[0];
         } else {
-            throw new IllegalArgumentException("You are not supposed to go through this door.\n");
+            throw new IllegalArgumentException("You are not supposed to go through this door!\n");
         }
     }
 

@@ -25,13 +25,13 @@ public class LockableObject extends Object {
                 throw new IllegalArgumentException("You need a key to lock a " + type + "!\n");
             }
         } else {
-            throw new IllegalStateException(upper(type) + " already unlocked.\n");
+            throw new IllegalStateException(upper(type) + " already unlocked!\n");
         }
     }
 
     public boolean lock(Object key) {
         if (locked) {
-            throw new IllegalStateException(upper(type) + " already locked.\n");
+            throw new IllegalStateException(upper(type) + " already locked!\n");
         } else {
             if (key.getType().equals("key")) {
                 locked = true;
@@ -50,7 +50,7 @@ public class LockableObject extends Object {
             case "door":
                 return "Door";
             default:
-                throw new IllegalArgumentException("Not an lockable object");
+                throw new IllegalArgumentException("Not an lockable object!");
         }
     }
 }

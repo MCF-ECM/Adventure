@@ -84,7 +84,7 @@ public class Object {
     public static Object objectsRemove(Dictionary<String, Object> objects, String type, int quantity) {
         Object have = objects.get(type);
         if (have == null) {
-            throw new IllegalArgumentException("Object not found.\n");
+            throw new IllegalArgumentException("Object not found!\n");
         } else {
             if (have.isPortable()) {
                 if (have.quantity - quantity == 0) {
@@ -136,7 +136,7 @@ public class Object {
                 case "diamond":
                     return quantity + " diamonds";
                 default:
-                    throw new IllegalArgumentException("Not an object");
+                    throw new IllegalArgumentException("Not an object!");
             }
         }
     }

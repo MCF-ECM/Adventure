@@ -31,7 +31,7 @@ public class AdventureGame {
                         if (inputs.length == 2) {
                             player.turn(inputs[1]);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Move":
@@ -44,7 +44,7 @@ public class AdventureGame {
                                 room = rooms.get(player.getRoom());
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Take":
@@ -53,7 +53,7 @@ public class AdventureGame {
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
                             player.take(room.getBox(), inputs[1], 1);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Drop":
@@ -62,7 +62,7 @@ public class AdventureGame {
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
                             player.drop(room.getBox(), inputs[1], 1);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Help":
@@ -83,7 +83,7 @@ public class AdventureGame {
                                     Box.help();
                                     break;
                                 default:
-                                    throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                                    throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                             }
                         }
                         break;
@@ -91,7 +91,7 @@ public class AdventureGame {
                         if (inputs.length == 1) {
                             play = false;
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Unlock":
@@ -104,10 +104,10 @@ public class AdventureGame {
                                     player.unlock(room.getBox());
                                     break;
                                 default:
-                                    throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                                    throw new IllegalArgumentException(("You can only unlock a door or a box!\n"));
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Lock":
@@ -120,10 +120,10 @@ public class AdventureGame {
                                     player.lock(room.getBox());
                                     break;
                                 default:
-                                    throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                                    throw new IllegalArgumentException(("You can only lock a door or a box!\n"));
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Content":
@@ -132,40 +132,18 @@ public class AdventureGame {
                                 room.getBox().print();
                             }
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     case "Transform":
                         if (inputs.length == 4 && inputs[2].equals("in")) {
-                            switch (inputs[1]) {
-                                case "coins":
-                                    switch (inputs[3]) {
-                                        case "gold":
-                                            player.coinsToGold();
-                                            break;
-                                        case "diamond":
-                                            player.coinsToDiamond();
-                                            break;
-                                        default:
-                                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
-                                    }
-                                    break;
-                                case "gold":
-                                    if (inputs[3].equals("diamond")) {
-                                        player.goldToDiamond();
-                                    } else {
-                                        throw new IllegalArgumentException(("Your instruction is not understood\n"));
-                                    }
-                                    break;
-                                default:
-                                    throw new IllegalArgumentException(("Your instruction is not understood\n"));
-                            }
+                            player.transform(inputs[1], inputs[2]);
                         } else {
-                            throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                            throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                         }
                         break;
                     default:
-                        throw new IllegalArgumentException(("Your instruction is not understood\n"));
+                        throw new IllegalArgumentException(("Your instruction is not understood!\n"));
                 }
             }
             catch (IllegalArgumentException | IllegalStateException e) {

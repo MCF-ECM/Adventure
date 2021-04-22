@@ -31,7 +31,7 @@ public class Player {
                 orientation = (orientation + 1) % 4;
                 break;
             default:
-                throw new IllegalArgumentException("Direction not understood.\n");
+                throw new IllegalArgumentException("Direction not allowed!\n");
         }
     }
 
@@ -40,19 +40,33 @@ public class Player {
         return this.room;
     }
 
-    public void coinsToGold() {
-        Object.objectsRemove(objects, "coin", 5);
-        Object.objectsAdd(objects, new Currency("gold", 1));
-    }
-
-    public void coinsToDiamond() {
-        Object.objectsRemove(objects, "coin", 15);
-        Object.objectsAdd(objects, new Currency("diamond", 1));
-    }
-
-    public void goldToDiamond() {
-        Object.objectsRemove(objects, "gold", 3);
-        Object.objectsAdd(objects, new Currency("diamond", 1));
+    public void transform(String toTransform, String transformed) {
+        switch (toTransform) {
+            case "coin":
+                switch (transformed) {
+                    case "gold":
+                        Object.objectsRemove(objects, "coin", 5);
+                        Object.objectsAdd(objects, new Currency("gold", 1));
+                        break;
+                    case "diamond":
+                        Object.objectsRemove(objects, "coin", 15);
+                        Object.objectsAdd(objects, new Currency("diamond", 1));
+                        break;
+                    default:
+                        throw new IllegalArgumentException(("You can only transform coin in gold or diamond!\n"));
+                }
+                break;
+            case "gold":
+                if (transformed.equals("diamond")) {
+                    Object.objectsRemove(objects, "gold", 3);
+                    Object.objectsAdd(objects, new Currency("diamond", 1));
+                } else {
+                    throw new IllegalArgumentException(("You can only transform gold in diamond!\n"));
+                }
+                break;
+            default:
+                throw new IllegalArgumentException(("You can only transform coin or gold!\n"));
+        }
     }
 
     public void unlock(LockableObject lockableObject) {
@@ -81,7 +95,7 @@ public class Player {
                 }
             }
         } else {
-            throw new IllegalStateException("You do not carry any key\n");
+            throw new IllegalStateException("You do not carry any key!\n");
         }
     }
 

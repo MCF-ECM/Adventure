@@ -41,7 +41,7 @@ public class Room {
                 return doors[orientation].pass(id);
             }
         } else {
-            throw new IllegalArgumentException("You cannot go through a wall.\n");
+            throw new IllegalArgumentException("You cannot go through a wall!\n");
         }
     }
 
