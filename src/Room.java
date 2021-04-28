@@ -6,7 +6,9 @@ public class Room {
     private final int id;
     private static int nextId = 0;
     private final Door[] doors;
-    private final Dictionary<String, Object> objects;
+    private final Dictionary<String, PortableObject> objects;
+    private final boolean haveBox;
+    private final Box box;
 
 
     public Room(Door door, int orientation) {
@@ -22,7 +24,13 @@ public class Room {
             }
         }
 
-        this.objects = Object.getObjects(false);
+        objects = PortableObject.getPortableObjects();
+        haveBox = Math.random() < .5;
+        if (haveBox) {
+            box = new Box();
+        } else {
+            box = null;
+        }
     }
 
     public Door getDoor(int orientation) {
@@ -30,7 +38,11 @@ public class Room {
     }
 
     public Box getBox() {
-        return (Box) objects.get("box");
+        if (haveBox) {
+            return box;
+        } else {
+            throw new IllegalStateException("There is no box in this room!");
+        }
     }
 
     public int move(int orientation) {
@@ -45,12 +57,12 @@ public class Room {
         }
     }
 
-    public Object take(String type, int quantity) {
-        return Object.objectsRemove(objects, type, quantity);
+    public PortableObject take(String type, int quantity) {
+        return PortableObject.remove(objects, type, quantity);
     }
 
-    public void drop(Object object) {
-        Object.objectsAdd(objects, object);
+    public void drop(PortableObject object) {
+        PortableObject.add(objects, object);
     }
 
     private String positionConversion(int i) {
@@ -90,7 +102,7 @@ public class Room {
         System.out.println("one door " + positionConversion(positions.get(positions.size() - 1)) + ".");
 
 
-        Object.print(objects);
+        PortableObject.print(objects);
         System.out.println("on the floor.");
     }
 }

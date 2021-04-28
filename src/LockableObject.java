@@ -1,21 +1,22 @@
-public class LockableObject extends Object {
-    protected boolean locked;
+public class LockableObject {
+    private final String type;
+    private boolean locked;
 
     public LockableObject(String type) {
-        super(type, 1,false);
-        locked = Math.random() < 0.6;
+        this.type = type;
+        this.locked = Math.random() < 0.6;
     }
 
     public LockableObject(String type, double lockedProbability) {
-        super(type, 1,false);
-        locked = Math.random() < lockedProbability;
+        this.type = type;
+        this.locked = Math.random() < lockedProbability;
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public boolean unlock(Object key) {
+    public boolean unlock(PortableObject key) {
         if (locked) {
             if (key.getType().equals("key")) {
                 locked = false;
@@ -29,7 +30,7 @@ public class LockableObject extends Object {
         }
     }
 
-    public boolean lock(Object key) {
+    public boolean lock(PortableObject key) {
         if (locked) {
             throw new IllegalStateException(upper(type) + " already locked!\n");
         } else {

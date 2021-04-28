@@ -2,35 +2,34 @@ import java.util.Dictionary;
 
 
 public class Box extends LockableObject {
-    private final Dictionary<String, Object> objects;
+    private final Dictionary<String, PortableObject> objects;
 
     public Box() {
         super("box", .5);
-        objects = Object.getObjects(true);
+        objects = PortableObject.getPortableObjects();
     }
 
-    public Object take(String type, int quantity) {
-        if (locked) {
+    public PortableObject take(String type, int quantity) {
+        if (isLocked()) {
             throw new IllegalArgumentException("You cannot take objects in an unlocked box!\n");
         } else {
-            return Object.objectsRemove(objects, type, quantity);
+            return PortableObject.remove(objects, type, quantity);
         }
     }
 
-    public void drop(Object object) {
-        if (locked) {
+    public void drop(PortableObject object) {
+        if (isLocked()) {
             throw new IllegalArgumentException("You cannot drop objects in an unlocked box!\n");
         } else {
-            Object.objectsAdd(objects, object);
+            PortableObject.add(objects, object);
         }
     }
 
-    @Override
     public void print() {
-        if (locked) {
+        if (isLocked()) {
             throw new IllegalStateException("You can only look the content of an unlocked box!\n");
         } else {
-            Object.print(objects);
+            PortableObject.print(objects);
             System.out.println("in the box.\n");
         }
     }

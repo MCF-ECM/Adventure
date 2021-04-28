@@ -1,4 +1,4 @@
-public class Key extends Object {
+public class Key extends PortableObject {
     public Key(String type, int quantity) {
         super(type, quantity);
     }

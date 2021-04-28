@@ -1,4 +1,8 @@
-public class Currency extends Object {
+public class Currency extends PortableObject {
+    public Currency(String type) {
+        super(type, 1);
+    }
+
     public Currency(String type, int quantity) {
         super(type, quantity);
     }

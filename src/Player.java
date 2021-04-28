@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class Player {
     private int orientation;
     private int room;
-    private final Dictionary<String, Object> objects;
+    private final Dictionary<String, PortableObject> objects;
 
     public Player(int orientation, int room) {
         this.orientation = orientation;
@@ -45,12 +45,12 @@ public class Player {
             case "coin":
                 switch (transformed) {
                     case "gold":
-                        Object.objectsRemove(objects, "coin", 5);
-                        Object.objectsAdd(objects, new Currency("gold", 1));
+                        PortableObject.remove(objects, "coin", 5);
+                        PortableObject.add(objects, new Currency("gold"));
                         break;
                     case "diamond":
-                        Object.objectsRemove(objects, "coin", 15);
-                        Object.objectsAdd(objects, new Currency("diamond", 1));
+                        PortableObject.remove(objects, "coin", 15);
+                        PortableObject.add(objects, new Currency("diamond"));
                         break;
                     default:
                         throw new IllegalArgumentException(("You can only transform coin in gold or diamond!\n"));
@@ -58,8 +58,8 @@ public class Player {
                 break;
             case "gold":
                 if (transformed.equals("diamond")) {
-                    Object.objectsRemove(objects, "gold", 3);
-                    Object.objectsAdd(objects, new Currency("diamond", 1));
+                    PortableObject.remove(objects, "gold", 3);
+                    PortableObject.add(objects, new Currency("diamond"));
                 } else {
                     throw new IllegalArgumentException(("You can only transform gold in diamond!\n"));
                 }
@@ -70,9 +70,9 @@ public class Player {
     }
 
     public void unlock(LockableObject lockableObject) {
-        Object keys = objects.get("key");
+        PortableObject keys = objects.get("key");
         if (keys != null) {
-            Object key = keys.get(1);
+            PortableObject key = keys.get(1);
             if (lockableObject.unlock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
@@ -85,9 +85,9 @@ public class Player {
     }
 
     public void lock(LockableObject lockableObject) {
-        Object keys = objects.get("key");
+        PortableObject keys = objects.get("key");
         if (keys != null) {
-            Object key = keys.get(1);
+            PortableObject key = keys.get(1);
             if (lockableObject.lock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
@@ -100,19 +100,19 @@ public class Player {
     }
 
     public void take(Room room, String object, int quantity) {
-        Object.objectsAdd(objects, room.take(object, quantity));
+        PortableObject.add(objects, room.take(object, quantity));
     }
 
     public void take(Box box, String object, int quantity) {
-        Object.objectsAdd(objects, box.take(object, quantity));
+        PortableObject.add(objects, box.take(object, quantity));
     }
 
     public void drop(Room room, String type, int quantity) {
-        room.drop(Object.objectsRemove(objects, type, quantity));
+        room.drop(PortableObject.remove(objects, type, quantity));
     }
 
     public void drop(Box box, String type, int quantity) {
-        box.drop(Object.objectsRemove(objects, type, quantity));
+        box.drop(PortableObject.remove(objects, type, quantity));
     }
 
     public void print() {
@@ -125,12 +125,12 @@ public class Player {
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(Object.quantity(objects.get(key).getQuantity(), key) + ", ");
+                    System.out.print(PortableObject.quantity(objects.get(key).getQuantity(), key) + ", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.println(Object.quantity(objects.get(key).getQuantity(), key) + ".\n");
+            System.out.println(PortableObject.quantity(objects.get(key).getQuantity(), key) + ".\n");
         }
     }
 }
