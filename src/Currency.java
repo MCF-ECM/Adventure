@@ -1,10 +1,19 @@
 public class Currency extends PortableObject {
+    private final String type;
+
     public Currency(String type) {
-        super(type, 1);
+        super();
+        this.type = type;
     }
 
     public Currency(String type, int quantity) {
-        super(type, quantity);
+        super(quantity);
+        this.type = type;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     public static void help() {

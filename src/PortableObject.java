@@ -3,11 +3,13 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class PortableObject {
-    private final String type;
     private int quantity;
 
-    public PortableObject(String type, int quantity) {
-        this.type = type;
+    public PortableObject() {
+        quantity = 1;
+    }
+
+    public PortableObject(int quantity) {
         this.quantity = quantity;
     }
 
@@ -16,7 +18,7 @@ public class PortableObject {
     }
 
     public String getType() {
-        return type;
+        return null;
     }
 
     public void add(int quantity) {
@@ -24,19 +26,23 @@ public class PortableObject {
     }
 
     public PortableObject get(int quantity) {
-        return new PortableObject(type, quantity);
+        switch (getType()) {
+            case "key":
+                return new Key(quantity);
+            case "coin": case "gold": case "diamond":
+                return new Currency(getType(), quantity);
+            default:
+                throw new IllegalArgumentException("Your object type is not allowed!\n");
+        }
     }
 
     public PortableObject remove(int quantity) {
         if (this.quantity - quantity >= 0) {
             this.quantity = this.quantity - quantity;
-            return new PortableObject(type, quantity);
+            return this.get(quantity);
         } else {
-            throw new IllegalArgumentException("Not enough " + type + "!\n");
+            throw new IllegalArgumentException("Not enough " + getType() + "!\n");
         }
-    }
-
-    public void print() {
     }
 
     public static void print(Dictionary<String, PortableObject> objects) {
@@ -60,10 +66,10 @@ public class PortableObject {
     }
 
     public static void add(Dictionary<String, PortableObject> objects, PortableObject object) {
-        if (objects.get(object.type) == null) {
-            objects.put(object.type, object);
+        if (objects.get(object.getType()) == null) {
+            objects.put(object.getType(), object);
         } else {
-            objects.get(object.type).add(object.quantity);
+            objects.get(object.getType()).add(object.quantity);
         }
     }
 
@@ -86,7 +92,7 @@ public class PortableObject {
 
         long quantity = Math.round(Math.random() * 4);
         if (quantity > 0) {
-            objects.put("key", new Key("key", (int) quantity));
+            objects.put("key", new Key((int) quantity));
         }
 
         if (Math.random() < .5) {

@@ -1,6 +1,15 @@
 public class Key extends PortableObject {
-    public Key(String type, int quantity) {
-        super(type, quantity);
+    public Key() {
+        super(1);
+    }
+
+    public Key(int quantity) {
+        super(quantity);
+    }
+
+    @Override
+    public String getType() {
+        return "key";
     }
 
     public static void help() {
