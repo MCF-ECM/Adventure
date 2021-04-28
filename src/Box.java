@@ -36,8 +36,10 @@ public class Box extends LockableObject {
     }
 
     public static void help() {
-        System.out.println("Unlock box with key : Unlock box");
-        System.out.println("Lock box with key   : Lock box");
-        System.out.println("Content box         : Show the content of a box\n");
+        System.out.println("Take <object> in box    : Pick up object object in a box");
+        System.out.println("Drop <object> in box    : Drop object object in a box");
+        System.out.println("Unlock box with key     : Unlock box");
+        System.out.println("Lock box with key       : Lock box");
+        System.out.println("Content box             : Show the content of a box\n");
     }
 }

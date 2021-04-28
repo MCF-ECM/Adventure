@@ -137,7 +137,7 @@ public class AdventureGame {
                         break;
                     case "Transform":
                         if (inputs.length == 4 && inputs[2].equals("in")) {
-                            player.transform(inputs[1], inputs[2]);
+                            player.transform(inputs[1], inputs[3]);
                         } else {
                             throw new IllegalArgumentException(("Your transformation is not understood!\n"));
                         }
@@ -155,12 +155,12 @@ public class AdventureGame {
     }
 
     static void help() {
-        System.out.println("Turn ( right | left )           : Turn in the specified direction");
-        System.out.println("Move                            : Move forward");
-        System.out.println("Take object                     : Pick up object object");
-        System.out.println("Drop object                     : Drop object object");
-        System.out.println("Action object1 [ with object2 ] : Perform action action on object object1, possibly with the help of object object2.");
-        System.out.println("Help [ object ]                 : This command");
-        System.out.println("Quit                            : Quit the game\n");
+        System.out.println("Turn ( right | left )               : Turn in the specified direction");
+        System.out.println("Move                                : Move forward");
+        System.out.println("Take <object>                       : Pick up object object");
+        System.out.println("Drop <object>                       : Drop object object");
+        System.out.println("Action <object1> [ with <object2> ] : Perform action action on object object1, possibly with the help of object object2.");
+        System.out.println("Help [ <object> ]                   : This command");
+        System.out.println("Quit                                : Quit the game\n");
     }
 }
