@@ -6,7 +6,7 @@ public class LockableObject extends Object {
         locked = Math.random() < 0.6;
     }
 
-    public LockableObject(String type, int lockedProbability) {
+    public LockableObject(String type, double lockedProbability) {
         super(type, 1,false);
         locked = Math.random() < lockedProbability;
     }

@@ -5,7 +5,7 @@ public class Box extends LockableObject {
     private final Dictionary<String, Object> objects;
 
     public Box() {
-        super("box", 1);
+        super("box", .5);
         objects = Object.getObjects(true);
     }
 
