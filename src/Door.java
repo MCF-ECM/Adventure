@@ -3,15 +3,20 @@ public class Door extends LockableObject {
     private final int[] rooms;
 
     public Door(int room1, int room2, boolean isDoor) {
-        super("door");
+        super();
         this.isDoor = isDoor;
         this.rooms = new int[]{room1, room2};
     }
 
     public Door(int room1, int room2) {
-        super("door");
+        super();
         this.isDoor = Math.random() < .4;
         this.rooms = new int[]{room1, room2};
+    }
+
+    @Override
+    public String getType() {
+        return "door";
     }
 
     public boolean isDoor() {

@@ -5,8 +5,13 @@ public class Box extends LockableObject {
     private final Dictionary<String, PortableObject> objects;
 
     public Box() {
-        super("box", .5);
+        super(.5);
         objects = PortableObject.getPortableObjects();
+    }
+
+    @Override
+    public String getType() {
+        return "box";
     }
 
     public PortableObject take(String type, int quantity) {
