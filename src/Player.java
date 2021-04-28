@@ -104,7 +104,7 @@ public class Player {
     }
 
     public void take(Box box, String object, int quantity) {
-        PortableObject.add(objects, box.take(object, quantity));
+        PortableObject.add(objects, box.remove(object, quantity));
     }
 
     public void drop(Room room, String type, int quantity) {
@@ -112,7 +112,7 @@ public class Player {
     }
 
     public void drop(Box box, String type, int quantity) {
-        box.drop(PortableObject.remove(objects, type, quantity));
+        box.add(PortableObject.remove(objects, type, quantity));
     }
 
     public void print() {
