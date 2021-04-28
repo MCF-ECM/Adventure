@@ -17,9 +17,9 @@ public class LockableObject {
         return null;
     }
 
-    public boolean unlock(PortableObject key) {
+    public boolean unlock(Key key) {
         if (locked) {
-            if (key.getType().equals("key")) {
+            if (key.getQuantity() > 0) {
                 locked = false;
                 System.out.println(upper(getType()) + " unlocked.\n");
                 return true;
@@ -31,11 +31,11 @@ public class LockableObject {
         }
     }
 
-    public boolean lock(PortableObject key) {
+    public boolean lock(Key key) {
         if (locked) {
             throw new IllegalStateException(upper(getType()) + " already locked!\n");
         } else {
-            if (key.getType().equals("key")) {
+            if (key.getQuantity() > 0) {
                 locked = true;
                 System.out.println(upper(getType()) + " locked.\n");
                 return true;

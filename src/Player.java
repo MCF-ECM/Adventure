@@ -72,7 +72,7 @@ public class Player {
     public void unlock(LockableObject lockableObject) {
         PortableObject keys = objects.get("key");
         if (keys != null) {
-            PortableObject key = keys.get(1);
+            Key key = (Key) keys.get(1);
             if (lockableObject.unlock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
@@ -87,7 +87,7 @@ public class Player {
     public void lock(LockableObject lockableObject) {
         PortableObject keys = objects.get("key");
         if (keys != null) {
-            PortableObject key = keys.get(1);
+            Key key = (Key) keys.get(1);
             if (lockableObject.lock(key)) {
                 keys.remove(1);
                 if (keys.getQuantity() == 0) {
