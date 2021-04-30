@@ -32,25 +32,20 @@ public class PortableObject {
     to it.
      */
     public void add(int quantity) {
-        this.quantity = this.quantity + quantity;
+        this.quantity += quantity;
     }
 
     /*
-        Return a copy of the portable object with the asked quantity
-        without changing the original portable object.
+        Return a copy of the portable object with the asked quantity.
      */
-    public PortableObject get(int quantity) {
-        if (this.quantity - quantity >= 0) {
-            switch (getType()) {
-                case "key":
-                    return new Key(quantity);
-                case "coin": case "gold": case "diamond":
-                    return new Currency(getType(), quantity);
-                default:
-                    throw new IllegalArgumentException("Your object type is not allowed!\n");
-            }
-        } else {
-            throw new IllegalArgumentException("Not enough " + getType() + "!\n");
+    public PortableObject copy(int quantity) {
+        switch (getType()) {
+            case "key":
+                return new Key(quantity);
+            case "coin": case "gold": case "diamond":
+                return new Currency(getType(), quantity);
+            default:
+                throw new IllegalArgumentException("Your object type is not allowed!\n");
         }
     }
 
@@ -60,8 +55,8 @@ public class PortableObject {
      */
     public PortableObject remove(int quantity) {
         if (this.quantity - quantity >= 0) {
-            this.quantity = this.quantity - quantity;
-            return this.get(quantity);
+            this.quantity -= quantity;
+            return this.copy(quantity);
         } else {
             throw new IllegalArgumentException("Not enough " + getType() + "!\n");
         }
