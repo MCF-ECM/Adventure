@@ -141,11 +141,11 @@ public class AdventureGame {
                             throw new IllegalArgumentException(("You can only look at the content of a box!\n"));
                         }
                         break;
-                    case "Transform":
-                        if (inputs.length == 4 && inputs[2].equals("in")) {
-                            player.transform(inputs[1], inputs[3]);
+                    case "Buy":
+                        if (inputs.length == 4 && inputs[2].equals("with") && inputs[3].equals("coin")) {
+                            player.buy(inputs[1]);
                         } else {
-                            throw new IllegalArgumentException(("Your transformation is not understood!\n"));
+                            throw new IllegalArgumentException(("Your buying is not understood!\n"));
                         }
                         break;
                     default:

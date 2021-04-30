@@ -53,15 +53,13 @@ public class Player {
     }
 
     /*
-        The player transform currencies.
+        The player buy portable object with currencies.
      */
-    public void transform(String toTransform, String transformed) {
-        Currency currency = (Currency) objects.get(toTransform);
-        objects.put(transformed, currency.transform(transformed));
-        if (currency.getQuantity() > 0) {
-            objects.put(toTransform, currency);
-        } else {
-            objects.remove(toTransform);
+    public void buy(String supply) {
+        Currency coins = (Currency) objects.get("coin");
+        PortableObject.add(objects, coins.buy(supply));
+        if (coins.getQuantity() == 0) {
+            objects.remove("coin");
         }
     }
 

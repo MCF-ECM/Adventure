@@ -1,6 +1,6 @@
 /*
-    A currency is a portable object that a player can "update" (transform into
-    a more valuable one).
+    A currency is a portable object that a player can create with less
+    valuable ones.
  */
 public class Currency extends PortableObject {
     private final String type;
@@ -21,30 +21,25 @@ public class Currency extends PortableObject {
     }
 
     /*
-        Update the currencies
+        Buy portable object with coins
      */
-    public Currency transform(String transformed) {
-        switch (type) {
-            case "coin":
-                switch (transformed) {
-                    case "gold":
-                        add(-5);
-                        return new Currency("gold");
-                    case "diamond":
-                        add(-15);
-                        return new Currency("diamond");
-                    default:
-                        throw new IllegalArgumentException(("You can only transform coin in gold or diamond!\n"));
-                }
-            case "gold":
-                if (transformed.equals("diamond")) {
-                   add(-3);
+    public PortableObject buy(String transformed) {
+        if (type.equals("coin")) {
+            switch (transformed) {
+                case "key":
+                    add(-2);
+                    return new Key();
+                case "gold":
+                    add(-5);
+                    return new Currency("gold");
+                case "diamond":
+                    add(-15);
                     return new Currency("diamond");
-                } else {
-                    throw new IllegalArgumentException(("You can only transform gold in diamond!\n"));
-                }
-            default:
-                throw new IllegalArgumentException(("You can only transform coin or gold!\n"));
+                default:
+                    throw new IllegalArgumentException(("You can only buy keys, gold or diamond!\n"));
+            }
+        } else {
+            throw new IllegalArgumentException(("You can only use coin to buy something!\n"));
         }
     }
 
@@ -52,8 +47,6 @@ public class Currency extends PortableObject {
         Print the commends involving currencies.
      */
     public static void help() {
-        System.out.println("Transform coin in gold     : Transform 5 coins in 1 gold");
-        System.out.println("Transform gold in diamond   : Transform 3 coins in 1 diamond");
-        System.out.println("Transform coin in diamond  : Transform 15 coins in 1 diamond\n");
+        System.out.println("Buy (key | gold | diamond) with coin : Buy 1 key, gold or diamond with 2, 5 or 15 coins\n");
     }
 }
