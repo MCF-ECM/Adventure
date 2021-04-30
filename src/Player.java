@@ -56,34 +56,18 @@ public class Player {
         The player transform currencies.
      */
     public void transform(String toTransform, String transformed) {
-        switch (toTransform) {
-            case "coin":
-                switch (transformed) {
-                    case "gold":
-                        PortableObject.remove(objects, "coin", 5);
-                        PortableObject.add(objects, new Currency("gold"));
-                        break;
-                    case "diamond":
-                        PortableObject.remove(objects, "coin", 15);
-                        PortableObject.add(objects, new Currency("diamond"));
-                        break;
-                    default:
-                        throw new IllegalArgumentException(("You can only transform coin in gold or diamond!\n"));
-                }
-                break;
-            case "gold":
-                if (transformed.equals("diamond")) {
-                    PortableObject.remove(objects, "gold", 3);
-                    PortableObject.add(objects, new Currency("diamond"));
-                } else {
-                    throw new IllegalArgumentException(("You can only transform gold in diamond!\n"));
-                }
-                break;
-            default:
-                throw new IllegalArgumentException(("You can only transform coin or gold!\n"));
+        Currency currency = (Currency) objects.get(toTransform);
+        objects.put(transformed, currency.transform(transformed));
+        if (currency.getQuantity() > 0) {
+            objects.put(toTransform, currency);
+        } else {
+            objects.remove(toTransform);
         }
     }
 
+    /*
+        The player unlock a lockable object.
+     */
     public void unlock(LockableObject lockableObject) {
         PortableObject keys = objects.get("key");
         if (keys != null) {
@@ -99,6 +83,9 @@ public class Player {
         }
     }
 
+    /*
+        The player lock a lockable object.
+     */
     public void lock(LockableObject lockableObject) {
         PortableObject keys = objects.get("key");
         if (keys != null) {
@@ -114,22 +101,37 @@ public class Player {
         }
     }
 
+    /*
+        The player take a portable object on the ground of a room.
+     */
     public void take(Room room, String object, int quantity) {
         PortableObject.add(objects, room.take(object, quantity));
     }
 
+    /*
+        The player take a portable object on the ground of a room.
+     */
     public void take(Box box, String object, int quantity) {
         PortableObject.add(objects, box.remove(object, quantity));
     }
 
+    /*
+        The player drop a portable object on the ground of a room.
+     */
     public void drop(Room room, String type, int quantity) {
         room.drop(PortableObject.remove(objects, type, quantity));
     }
 
+    /*
+        The player drop a portable object on the ground of a room.
+     */
     public void drop(Box box, String type, int quantity) {
         box.add(PortableObject.remove(objects, type, quantity));
     }
 
+    /*
+        Print what the player is carrying.
+     */
     public void print() {
         if (objects.isEmpty()) {
             System.out.println("You do not carry anything.\n");

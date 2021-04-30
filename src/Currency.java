@@ -21,6 +21,34 @@ public class Currency extends PortableObject {
     }
 
     /*
+        Update the currencies
+     */
+    public Currency transform(String transformed) {
+        switch (type) {
+            case "coin":
+                switch (transformed) {
+                    case "gold":
+                        add(-5);
+                        return new Currency("gold");
+                    case "diamond":
+                        add(-15);
+                        return new Currency("diamond");
+                    default:
+                        throw new IllegalArgumentException(("You can only transform coin in gold or diamond!\n"));
+                }
+            case "gold":
+                if (transformed.equals("diamond")) {
+                   add(-3);
+                    return new Currency("diamond");
+                } else {
+                    throw new IllegalArgumentException(("You can only transform gold in diamond!\n"));
+                }
+            default:
+                throw new IllegalArgumentException(("You can only transform coin or gold!\n"));
+        }
+    }
+
+    /*
         Print the commends involving currencies.
      */
     public static void help() {
