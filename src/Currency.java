@@ -1,3 +1,7 @@
+/*
+    A currency is a portable object that a player can "update" (transform into
+    a more valuable one).
+ */
 public class Currency extends PortableObject {
     private final String type;
 
@@ -16,6 +20,9 @@ public class Currency extends PortableObject {
         return type;
     }
 
+    /*
+        Print the commends involving currencies.
+     */
     public static void help() {
         System.out.println("Transform coin in gold     : Transform 5 coins in 1 gold");
         System.out.println("Transform gold in diamond   : Transform 3 coins in 1 diamond");

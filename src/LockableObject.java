@@ -1,3 +1,6 @@
+/*
+    A lockable object is an object that can be locked or unlocked using a key.
+ */
 public class LockableObject {
     private boolean locked;
 
@@ -17,6 +20,9 @@ public class LockableObject {
         return null;
     }
 
+    /*
+        Unlock a lockable object and return if the function work or not.
+     */
     public boolean unlock(Key key) {
         if (locked) {
             if (key.getQuantity() > 0) {
@@ -31,6 +37,9 @@ public class LockableObject {
         }
     }
 
+    /*
+        Lock a lockable object and return if the function work or not.
+     */
     public boolean lock(Key key) {
         if (locked) {
             throw new IllegalStateException(upper(getType()) + " already locked!\n");

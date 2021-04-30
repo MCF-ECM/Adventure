@@ -4,24 +4,30 @@ import java.util.ArrayList;
 
 public class AdventureGame {
     public static void main(String[] args){
+        // Print the welcome message.
         System.out.println("Welcome to the game!\n");
+
+        // Initialize a scanner for the inputs.
         Scanner in = new Scanner(System.in);
         String input;
         String[] inputs;
 
+        // Initialise a player
         Player player = new Player(0, 0);
 
+        // Initialise a room and a ArrayList<Room> to store them
         ArrayList<Room> rooms = new ArrayList<>();
-
         rooms.add(new Room(new Door(0, -1, true), (player.getOrientation() + 2) % 4));
         Room room = rooms.get(0);
 
         boolean play = true;
 
         while (play) {
+            // Print the state of the room where the player is and his/her belongs.
             room.print(player.getOrientation());
             player.print();
 
+            // Get the inputs.
             input = in.nextLine();
             inputs = input.trim().split("\\s+");
 
@@ -154,6 +160,9 @@ public class AdventureGame {
         System.out.println("You quit the game!");
     }
 
+    /*
+       Print the default commends.
+    */
     static void help() {
         System.out.println("Turn ( right | left )               : Turn in the specified direction");
         System.out.println("Move                                : Move forward");
