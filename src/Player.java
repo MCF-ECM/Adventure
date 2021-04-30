@@ -142,13 +142,13 @@ public class Player {
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    PortableObject.quantity(objects.get(key).getQuantity(), key);
+                    objects.get(key).print();
                     System.out.print(", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            PortableObject.quantity(objects.get(key).getQuantity(), key);
+            objects.get(key).print();
             System.out.println(".\n");
         }
     }

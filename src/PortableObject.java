@@ -81,17 +81,17 @@ public class PortableObject {
                 System.out.print("There are ");
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    PortableObject.quantity(objects.get(key).quantity, key);
+                    objects.get(key).print();
                     System.out.print(", ");
 
                 }
                 System.out.print("and ");
                 key = keys.nextElement();
+                objects.get(key).print();
             } else {
                 key = keys.nextElement();
-                PortableObject.quantity(objects.get(key).quantity);
+                objects.get(key).print(true);
             }
-            PortableObject.quantity(objects.get(key).quantity, key);
             System.out.print(" ");
         }
     }
@@ -147,26 +147,30 @@ public class PortableObject {
     }
 
     /*
-        Print "There is" or "There are" in function of the quantity.
+        Print "There is" or "There are" in function of the quantity, the quantity and
+        the type of portable object with the correct form (singular or plural).
      */
-    public static void quantity(int quantity) {
-        if (quantity == 1) {
-            System.out.print("There is ");
-        } else {
-            System.out.print("There are ");
+    public void print(boolean starting) {
+        if (starting) {
+            if (quantity == 1) {
+                System.out.print("There is ");
+            } else {
+                System.out.print("There are ");
+            }
         }
+        this.print();
     }
 
     /*
         Print the quantity and the type of portable object with the correct form
         (singular or plural).
      */
-    public static void quantity(int quantity, String object) {
+    public void print() {
         System.out.print(quantity + " ");
         if (quantity == 1) {
-            System.out.print(object);
+            System.out.print(getType());
         } else {
-            switch (object) {
+            switch (getType()) {
                 case "key":
                     System.out.print("keys");
                     break;
