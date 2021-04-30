@@ -4,8 +4,11 @@ import java.util.Hashtable;
 
 
 public class Player {
+    // The orientation of a player is an integer between 0 and 3.
     private int orientation;
+    // The id of the room where the player is.
     private int room;
+    // objects store the objects that the player carry.
     private final Dictionary<String, PortableObject> objects;
 
     public Player(int orientation, int room) {
@@ -22,6 +25,10 @@ public class Player {
         return room;
     }
 
+    /*
+        Change the orientation of a player given the direction to turn
+        (String), "left" or "right".
+     */
     public void turn(String direction) {
         switch (direction) {
             case "left":
@@ -35,11 +42,19 @@ public class Player {
         }
     }
 
+    /*
+        Update and return the id of the room where a player is, after he/she
+        has walked in the room at the other side of the door he/she faced (when
+        it is possible).
+     */
     public int move(Room room) {
         this.room = room.move(orientation);
         return this.room;
     }
 
+    /*
+        The player transform currencies.
+     */
     public void transform(String toTransform, String transformed) {
         switch (toTransform) {
             case "coin":
@@ -125,12 +140,14 @@ public class Player {
             if (objects.size() > 1) {
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(PortableObject.quantity(objects.get(key).getQuantity(), key) + ", ");
+                    PortableObject.quantity(objects.get(key).getQuantity(), key);
+                    System.out.print(", ");
                 }
                 System.out.print("and ");
             }
             key = keys.nextElement();
-            System.out.println(PortableObject.quantity(objects.get(key).getQuantity(), key) + ".\n");
+            PortableObject.quantity(objects.get(key).getQuantity(), key);
+            System.out.println(".\n");
         }
     }
 }

@@ -2,6 +2,12 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+
+/*
+    A portable object is an object that a player can take or drop such as:
+        - keys;
+        - currencies (coins, gold, diamond).
+ */
 public class PortableObject {
     private int quantity;
 
@@ -21,21 +27,37 @@ public class PortableObject {
         return null;
     }
 
+    /*
+    Change the quantity of an portable object by adding an integer
+    to it.
+     */
     public void add(int quantity) {
         this.quantity = this.quantity + quantity;
     }
 
+    /*
+        Return a copy of the portable object with the asked quantity
+        without changing the original portable object.
+     */
     public PortableObject get(int quantity) {
-        switch (getType()) {
-            case "key":
-                return new Key(quantity);
-            case "coin": case "gold": case "diamond":
-                return new Currency(getType(), quantity);
-            default:
-                throw new IllegalArgumentException("Your object type is not allowed!\n");
+        if (this.quantity - quantity >= 0) {
+            switch (getType()) {
+                case "key":
+                    return new Key(quantity);
+                case "coin": case "gold": case "diamond":
+                    return new Currency(getType(), quantity);
+                default:
+                    throw new IllegalArgumentException("Your object type is not allowed!\n");
+            }
+        } else {
+            throw new IllegalArgumentException("Not enough " + getType() + "!\n");
         }
     }
 
+    /*
+        Return a part of the portable object with the asked quantity
+        changing the original portable object.
+     */
     public PortableObject remove(int quantity) {
         if (this.quantity - quantity >= 0) {
             this.quantity = this.quantity - quantity;
@@ -45,26 +67,38 @@ public class PortableObject {
         }
     }
 
+    /*
+        Print the content of a Dictionary<String, PortableObject>.
+     */
     public static void print(Dictionary<String, PortableObject> objects) {
         if (objects.isEmpty()) {
             System.out.print("There is nothing ");
         } else {
             Enumeration<String> keys = objects.keys();
             String key;
-            System.out.print("There is ");
 
             if (objects.size() > 1) {
+                System.out.print("There are ");
                 for (int i = 0; i < objects.size() - 1; i++) {
                     key = keys.nextElement();
-                    System.out.print(PortableObject.quantity(objects.get(key).quantity, key) + ", ");
+                    PortableObject.quantity(objects.get(key).quantity, key);
+                    System.out.print(", ");
+
                 }
                 System.out.print("and ");
+                key = keys.nextElement();
+            } else {
+                key = keys.nextElement();
+                PortableObject.quantity(objects.get(key).quantity);
             }
-            key = keys.nextElement();
-            System.out.print(PortableObject.quantity(objects.get(key).quantity, key) + " ");
+            PortableObject.quantity(objects.get(key).quantity, key);
+            System.out.print(" ");
         }
     }
 
+    /*
+        Add a portable object to a Dictionary<String, PortableObject>.
+     */
     public static void add(Dictionary<String, PortableObject> objects, PortableObject object) {
         if (objects.get(object.getType()) == null) {
             objects.put(object.getType(), object);
@@ -73,6 +107,9 @@ public class PortableObject {
         }
     }
 
+    /*
+        Remove and return a portable object with the asked from a Dictionary<String, PortableObject>.
+     */
     public static PortableObject remove(Dictionary<String, PortableObject> objects, String type, int quantity) {
         PortableObject have = objects.get(type);
         if (have == null) {
@@ -87,7 +124,10 @@ public class PortableObject {
         }
     }
 
-    public static Dictionary<String, PortableObject> getPortableObjects() {
+    /*
+        Return a Dictionary<String, PortableObject> with portable objects in it.
+     */
+        public static Dictionary<String, PortableObject> getPortableObjects() {
         Dictionary<String, PortableObject> objects = new Hashtable<>();
 
         long quantity = Math.round(Math.random() * 4);
@@ -106,19 +146,39 @@ public class PortableObject {
         return objects;
     }
 
-    public static String quantity(int quantity, String object) {
+    /*
+        Print "There is" or "There are" in function of the quantity.
+     */
+    public static void quantity(int quantity) {
         if (quantity == 1) {
-            return "1 " + object;
+            System.out.print("There is ");
+        } else {
+            System.out.print("There are ");
+        }
+    }
+
+    /*
+        Print the quantity and the type of portable object with the correct form
+        (singular or plural).
+     */
+    public static void quantity(int quantity, String object) {
+        System.out.print(quantity + " ");
+        if (quantity == 1) {
+            System.out.print(object);
         } else {
             switch (object) {
                 case "key":
-                    return quantity + " keys";
+                    System.out.print("keys");
+                    break;
                 case "coin":
-                    return quantity + " coins";
+                    System.out.print("coins");
+                    break;
                 case "gold":
-                    return quantity + " gold";
+                    System.out.print("gold");
+                    break;
                 case "diamond":
-                    return quantity + " diamonds";
+                    System.out.print("diamonds");
+                    break;
                 default:
                     throw new IllegalArgumentException("Not an object!");
             }
