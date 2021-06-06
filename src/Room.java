@@ -74,8 +74,8 @@ public class Room {
         Return the asked portable object in the asked quantity that is/are remove
         from the ground of a room.
      */
-    public PortableObject take(String type, int quantity) {
-        return objects.remove(type, quantity);
+    public PortableObject take(String type) {
+        return objects.remove(type, 1);
     }
 
     /*

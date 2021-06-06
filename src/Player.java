@@ -97,29 +97,29 @@ public class Player {
     /*
         The player take a portable object on the ground of a room.
      */
-    public void take(Room room, String object, int quantity) {
-        objects.add(room.take(object, quantity));
+    public void take(Room room, String object) {
+        objects.add(room.take(object));
     }
 
     /*
         The player take a portable object on the ground of a room.
      */
-    public void take(Box box, String object, int quantity) {
-        objects.add(box.remove(object, quantity));
+    public void take(Box box, String object) {
+        objects.add(box.remove(object));
     }
 
     /*
         The player drop a portable object on the ground of a room.
      */
-    public void drop(Room room, String type, int quantity) {
-        room.drop(objects.remove(type, quantity));
+    public void drop(Room room, String type) {
+        room.drop(objects.remove(type));
     }
 
     /*
         The player drop a portable object on the ground of a room.
      */
-    public void drop(Box box, String type, int quantity) {
-        box.add(objects.remove(type, quantity));
+    public void drop(Box box, String type) {
+        box.add(objects.remove(type));
     }
 
     /*

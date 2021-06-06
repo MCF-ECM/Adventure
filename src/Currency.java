@@ -27,13 +27,13 @@ public class Currency extends PortableObject {
         if (type.equals("coin")) {
             switch (transformed) {
                 case "key":
-                    add(-2);
+                    remove(2);
                     return new Key();
                 case "gold":
-                    add(-5);
+                    remove(5);
                     return new Currency("gold");
                 case "diamond":
-                    add(-15);
+                    remove(15);
                     return new Currency("diamond");
                 default:
                     throw new IllegalArgumentException(("You can only buy keys, gold or diamond!\n"));

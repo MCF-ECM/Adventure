@@ -17,11 +17,11 @@ public class Box extends LockableObject {
     /*
         Remove a portable object from a box.
      */
-    public PortableObject remove(String type, int quantity) {
+    public PortableObject remove(String type) {
         if (isLocked()) {
             throw new IllegalArgumentException("You cannot take objects in an unlocked box!\n");
         } else {
-            return objects.remove(type, quantity);
+            return objects.remove(type, 1);
         }
     }
 

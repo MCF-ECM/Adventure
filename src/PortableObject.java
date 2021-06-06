@@ -27,7 +27,12 @@ public class PortableObject {
     to it.
      */
     public void add(int quantity) {
-        this.quantity += quantity;
+        if (quantity > 0) {
+            this.quantity += quantity;
+        }
+        else {
+            throw new IllegalArgumentException("The quantity must be positive!");
+        }
     }
 
     /*
@@ -49,11 +54,16 @@ public class PortableObject {
         changing the original portable object.
      */
     public PortableObject remove(int quantity) {
-        if (this.quantity - quantity >= 0) {
-            this.quantity -= quantity;
-            return this.copy(quantity);
-        } else {
-            throw new IllegalArgumentException("Not enough " + getType() + "!\n");
+        if (quantity > 0) {
+            if (this.quantity - quantity >= 0) {
+                this.quantity -= quantity;
+                return this.copy(quantity);
+            } else {
+                throw new IllegalArgumentException("Not enough " + getType() + "!\n");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("The quantity must be positive!");
         }
     }
 

@@ -55,18 +55,18 @@ public class AdventureGame {
                         break;
                     case "Take":
                         if (inputs.length == 2) {
-                            player.take(room, inputs[1], 1);
+                            player.take(room, inputs[1]);
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
-                            player.take(room.getBox(), inputs[1], 1);
+                            player.take(room.getBox(), inputs[1]);
                         } else {
                             throw new IllegalArgumentException(("You can only take an object on the ground or in a box!\n"));
                         }
                         break;
                     case "Drop":
                         if (inputs.length == 2) {
-                            player.drop(room, inputs[1], 1);
+                            player.drop(room, inputs[1]);
                         } else if (inputs.length == 4 && inputs[2].equals("in") && inputs[3].equals("box")) {
-                            player.drop(room.getBox(), inputs[1], 1);
+                            player.drop(room.getBox(), inputs[1]);
                         } else {
                             throw new IllegalArgumentException(("You can only drop an object on the ground or in a box!\n"));
                         }
