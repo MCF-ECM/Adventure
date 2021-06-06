@@ -1,15 +1,12 @@
-import java.util.Dictionary;
-
-
 /*
     A box is an lockable object that store portable objects.
  */
 public class Box extends LockableObject {
-    private final Dictionary<String, PortableObject> objects;
+    private final PortableObjectDictionary objects;
 
     public Box() {
         super(.5);
-        objects = PortableObject.getPortableObjects();
+        objects = new PortableObjectDictionary(false);
     }
 
     @Override
@@ -24,7 +21,7 @@ public class Box extends LockableObject {
         if (isLocked()) {
             throw new IllegalArgumentException("You cannot take objects in an unlocked box!\n");
         } else {
-            return PortableObject.remove(objects, type, quantity);
+            return objects.remove(type, quantity);
         }
     }
 
@@ -35,7 +32,7 @@ public class Box extends LockableObject {
         if (isLocked()) {
             throw new IllegalArgumentException("You cannot drop objects in an unlocked box!\n");
         } else {
-            PortableObject.add(objects, object);
+            objects.add(object);
         }
     }
 
@@ -46,7 +43,7 @@ public class Box extends LockableObject {
         if (isLocked()) {
             throw new IllegalStateException("You can only look the content of an unlocked box!\n");
         } else {
-            PortableObject.print(objects);
+            objects.print(false);
             System.out.println("in the box.\n");
         }
     }

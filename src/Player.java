@@ -1,20 +1,15 @@
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
-
 public class Player {
     // The orientation of a player is an integer between 0 and 3.
     private int orientation;
     // The id of the room where the player is.
     private int room;
     // objects store the objects that the player carry.
-    private final Dictionary<String, PortableObject> objects;
+    private final PortableObjectDictionary objects;
 
     public Player(int orientation, int room) {
         this.orientation = orientation;
         this.room = room;
-        this.objects = new Hashtable<>();
+        this.objects = new PortableObjectDictionary(true);
     }
 
     public int getOrientation() {
@@ -57,7 +52,7 @@ public class Player {
      */
     public void buy(String supply) {
         Currency coins = (Currency) objects.get("coin");
-        PortableObject.add(objects, coins.buy(supply));
+        objects.add(coins.buy(supply));
         if (coins.getQuantity() == 0) {
             objects.remove("coin");
         }
@@ -103,51 +98,34 @@ public class Player {
         The player take a portable object on the ground of a room.
      */
     public void take(Room room, String object, int quantity) {
-        PortableObject.add(objects, room.take(object, quantity));
+        objects.add(room.take(object, quantity));
     }
 
     /*
         The player take a portable object on the ground of a room.
      */
     public void take(Box box, String object, int quantity) {
-        PortableObject.add(objects, box.remove(object, quantity));
+        objects.add(box.remove(object, quantity));
     }
 
     /*
         The player drop a portable object on the ground of a room.
      */
     public void drop(Room room, String type, int quantity) {
-        room.drop(PortableObject.remove(objects, type, quantity));
+        room.drop(objects.remove(type, quantity));
     }
 
     /*
         The player drop a portable object on the ground of a room.
      */
     public void drop(Box box, String type, int quantity) {
-        box.add(PortableObject.remove(objects, type, quantity));
+        box.add(objects.remove(type, quantity));
     }
 
     /*
         Print what the player is carrying.
      */
     public void print() {
-        if (objects.isEmpty()) {
-            System.out.println("You do not carry anything.\n");
-        } else {
-            System.out.print("You carry ");
-            Enumeration<String> keys = objects.keys();
-            String key;
-            if (objects.size() > 1) {
-                for (int i = 0; i < objects.size() - 1; i++) {
-                    key = keys.nextElement();
-                    objects.get(key).print();
-                    System.out.print(", ");
-                }
-                System.out.print("and ");
-            }
-            key = keys.nextElement();
-            objects.get(key).print();
-            System.out.println(".\n");
-        }
+        objects.print(true);
     }
 }

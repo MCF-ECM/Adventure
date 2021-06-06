@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Dictionary;
 
 
 /*
@@ -12,7 +11,7 @@ public class Room {
     // doors store the doors and walls (which are door with isDoor = False).
     private final Door[] doors;
     // objects store the objects on the ground that a player can take or drop in.
-    private final Dictionary<String, PortableObject> objects;
+    private final PortableObjectDictionary objects;
     private final boolean haveBox;
     private final Box box;
 
@@ -30,7 +29,7 @@ public class Room {
             }
         }
 
-        objects = PortableObject.getPortableObjects();
+        objects = new PortableObjectDictionary(false);
         haveBox = Math.random() < .5;
         if (haveBox) {
             box = new Box();
@@ -76,14 +75,14 @@ public class Room {
         from the ground of a room.
      */
     public PortableObject take(String type, int quantity) {
-        return PortableObject.remove(objects, type, quantity);
+        return objects.remove(type, quantity);
     }
 
     /*
         Drop an portable object on the ground of a room.
      */
     public void drop(PortableObject object) {
-        PortableObject.add(objects, object);
+        objects.add(object);
     }
 
     /*
@@ -138,7 +137,7 @@ public class Room {
         System.out.println("one door " + positionConversion(positions.get(positions.size() - 1)) + ".");
 
         // Print the list of portable obejcts on the ground.
-        PortableObject.print(objects);
+        objects.print(false);
         System.out.println("on the floor.");
 
         // Print the presence of a box when there is one.
